@@ -51,7 +51,10 @@ class GetStarted extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
-                          context, MaterialPageRoute(builder: (_) => const Home()));
+                          context, MaterialPageRoute(
+                            builder: (_) => const Home()
+                            )
+                        );
                     },
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
