@@ -90,7 +90,7 @@ class VetCard extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(
-                          '₹${vetItem.price}',
+                          'Rp${vetItem.price}',
                           style: TextStyle(
                               color: Styles.blackColor,
                               fontWeight: FontWeight.bold,

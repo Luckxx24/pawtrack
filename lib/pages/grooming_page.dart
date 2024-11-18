@@ -17,24 +17,25 @@ class GroomingPage extends StatefulWidget {
 class _GroomingPageState extends State<GroomingPage> {
   List groomingList = [
     {
-      'name': 'Spa Bath',
+      'name': 'Mandi Spa',
       'services': 7,
       'bonus': 160,
       'price': 960,
     },
     {
-      'name': 'Bath + Basic Grooming',
+      'name': 'Mandi + Perawatan Dasar',
       'services': 10,
       'bonus': 239,
       'price': 1438,
     },
     {
-      'name': 'Full Service',
+      'name': 'Layanan Lengkap',
       'services': 12,
       'bonus': 299,
       'price': 1798,
     },
   ];
+
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
   final List _packages = [];
 

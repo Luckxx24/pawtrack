@@ -42,65 +42,67 @@ class _VetPageState extends State<VetPage> {
   Widget build(BuildContext context) {
     final veterinaryPackage = [
       {
-        'title': 'Online Vet(Cat)',
+        'title': 'Dokter Hewan (Kucing)',
         'sub': null,
         'pet': 'assets/svg/pet_circle.svg',
         'items': [
-          'One time consultation',
-          'Call & Video Consultancy',
-          'Personalized Advice'
+          'Konsultasi sekali saja',
+          'Konsultasi melalui Panggilan & Video',
+          'Saran yang Dipersonalisasi'
         ],
         'price': 149
       },
       {
-        'title': 'Online Essential Care',
-        'sub': '(220 minutes/month)',
+        'title': 'Perawatan Esensial Online',
+        'sub': '(220 menit/bulan)',
         'pet': null,
         'items': [
-          'Chat Consults',
-          'Personalized Advice',
-          '1 month follow ups',
-          'Ticks & Fleas Preventive'
+          'Konsultasi melalui Chat',
+          'Saran yang Dipersonalisasi',
+          'Tindak lanjut selama 1 bulan',
+          'Pencegahan Kutu & Tungau'
         ],
         'price': 499
       },
       {
-        'title': 'Online Essential Care',
-        'sub': '(220 minutes/month)',
+        'title': 'Perawatan Esensial Online',
+        'sub': '(220 menit/bulan)',
         'pet': null,
         'items': [
-          'Chat Consults',
-          'Personalized Advice',
-          '1 month follow ups',
-          'Ticks & Fleas Preventive'
+          'Konsultasi melalui Chat',
+          'Saran yang Dipersonalisasi',
+          'Tindak lanjut selama 1 bulan',
+          'Pencegahan Kutu & Tungau'
         ],
         'price': 499
       },
       {
-        'title': 'Dog Consultation',
+        'title': 'Konsultasi Anjing',
         'sub': null,
         'pet': 'assets/svg/pet_circle2.svg',
         'items': [
-          'Nutrition Consultation',
-          'Dog Parenting Management',
-          'Behavioral Training Tips',
-          '(Aggression, Biting, Jumping)'
+          'Konsultasi Nutrisi',
+          'Manajemen Parenting Anjing',
+          'Tips Pelatihan Perilaku',
+          '(Agresi, Menggigit, Melompat)'
         ],
         'price': 599
       },
       {
-        'title': 'Online Essential Care',
-        'sub': '(220 minutes/month)',
+        'title': 'Perawatan Esensial Online',
+        'sub': '(220 menit/bulan)',
         'pet': null,
         'items': [
-          'Chat Consults',
-          'Personalized Advice',
-          '1 month follow ups',
-          'Ticks & Fleas Preventive'
+          'Konsultasi melalui Chat',
+          'Saran yang Dipersonalisasi',
+          'Tindak lanjut selama 1 bulan',
+          'Pencegahan Kutu & Tungau'
         ],
         'price': 499
       },
     ];
+
+
     return Material(
       child: Stack(
         children: [

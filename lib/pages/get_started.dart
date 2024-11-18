@@ -30,7 +30,7 @@ class GetStarted extends StatelessWidget {
                 const Gap(25),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 70),
-                  child: Text('Re-Home and\nAdopt a Pet',
+                  child: Text('Pawtrack',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Styles.blackColor,

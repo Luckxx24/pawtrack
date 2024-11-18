@@ -56,7 +56,7 @@ class PackageCard extends StatelessWidget {
                               fontSize: 12,
                               fontFamily: 'Poppins')),
                       TextSpan(
-                        text: ' ${package.bonus}₹ ',
+                        text: ' ${package.bonus}Rp ',
                         style: const TextStyle(
                             color: Color(0xFF04EA4B),
                             fontWeight: FontWeight.bold,
@@ -79,7 +79,7 @@ class PackageCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    '₹${package.price}',
+                    'Rp${package.price}',
                     style: TextStyle(
                         color: Styles.blackColor,
                         fontWeight: FontWeight.bold,

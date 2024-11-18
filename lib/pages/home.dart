@@ -30,8 +30,8 @@ class Home extends StatelessWidget {
         'page': const VetPage()
       },
       {
-        'text': 'Help',
-        'icon': 'assets/nav_icons/help_icon.svg',
+        'text': 'Akun',
+        'icon': 'assets/nav_icons/account-svgrepo-com.svg',
       },
     ];
     final size = Layouts.getSize(context);
@@ -106,15 +106,15 @@ class Home extends StatelessWidget {
             ],
           ),
           const Gap(35),
-          const AnimatedTitle(title: 'Who are you looking for?'),
+          const AnimatedTitle(title: 'Apa yang kamu cari?'),
           const Gap(10),
           Row(
             children: const [
-              PetCard(petPath: 'assets/svg/cat1.svg', petName: 'Cat Adoption'),
+              PetCard(petPath: 'assets/svg/cat1.svg', petName: 'Adopsi kucing'),
               Gap(28),
               PetCard(
                 petPath: 'assets/svg/dog1.svg',
-                petName: 'Dog Adoption',
+                petName: 'Adopsi hewan',
                 height: 68,
               ),
             ],
