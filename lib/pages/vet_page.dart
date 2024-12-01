@@ -1,9 +1,9 @@
-import 'package:pawtrack/models/package_details.dart';
-import 'package:pawtrack/utils/styles.dart';
-import 'package:pawtrack/widgets/back_button.dart';
-import 'package:pawtrack/widgets/vet_card.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import '../services/vet_service.dart';
+import '../models/vet_models.dart';
+import '../utils/styles.dart';
+import '../widgets/back_button.dart';
 
 class VetPage extends StatefulWidget {
   const VetPage({Key? key}) : super(key: key);
@@ -15,16 +15,17 @@ class VetPage extends StatefulWidget {
 class _VetPageState extends State<VetPage> {
   late ScrollController _controller;
   double headerHeight = 140;
+  final FirebaseService _firebaseService = FirebaseService();
+
   @override
   void initState() {
     _controller = ScrollController();
     _controller.addListener(() {
-      if(_controller.offset > 0) {
+      if (_controller.offset > 0) {
         setState(() {
           headerHeight = 0;
         });
-      }
-      else {
+      } else {
         setState(() {
           headerHeight = 140;
         });
@@ -32,77 +33,15 @@ class _VetPageState extends State<VetPage> {
     });
     super.initState();
   }
+
   @override
   void dispose() {
-    //_controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final veterinaryPackage = [
-      {
-        'title': 'Dokter Hewan (Kucing)',
-        'sub': null,
-        'pet': 'assets/svg/pet_circle.svg',
-        'items': [
-          'Konsultasi sekali saja',
-          'Konsultasi melalui Panggilan & Video',
-          'Saran yang Dipersonalisasi'
-        ],
-        'price': 149
-      },
-      {
-        'title': 'Perawatan Esensial Online',
-        'sub': '(220 menit/bulan)',
-        'pet': null,
-        'items': [
-          'Konsultasi melalui Chat',
-          'Saran yang Dipersonalisasi',
-          'Tindak lanjut selama 1 bulan',
-          'Pencegahan Kutu & Tungau'
-        ],
-        'price': 499
-      },
-      {
-        'title': 'Perawatan Esensial Online',
-        'sub': '(220 menit/bulan)',
-        'pet': null,
-        'items': [
-          'Konsultasi melalui Chat',
-          'Saran yang Dipersonalisasi',
-          'Tindak lanjut selama 1 bulan',
-          'Pencegahan Kutu & Tungau'
-        ],
-        'price': 499
-      },
-      {
-        'title': 'Konsultasi Anjing',
-        'sub': null,
-        'pet': 'assets/svg/pet_circle2.svg',
-        'items': [
-          'Konsultasi Nutrisi',
-          'Manajemen Parenting Anjing',
-          'Tips Pelatihan Perilaku',
-          '(Agresi, Menggigit, Melompat)'
-        ],
-        'price': 599
-      },
-      {
-        'title': 'Perawatan Esensial Online',
-        'sub': '(220 menit/bulan)',
-        'pet': null,
-        'items': [
-          'Konsultasi melalui Chat',
-          'Saran yang Dipersonalisasi',
-          'Tindak lanjut selama 1 bulan',
-          'Pencegahan Kutu & Tungau'
-        ],
-        'price': 499
-      },
-    ];
-
-
     return Material(
       child: Stack(
         children: [
@@ -118,29 +57,129 @@ class _VetPageState extends State<VetPage> {
                   width: double.infinity,
                   height: headerHeight,
                   decoration: BoxDecoration(
-                      image: const DecorationImage(
-                          image: AssetImage('assets/png/vet.png'),
-                          fit: BoxFit.cover),
-                      borderRadius: BorderRadius.circular(22),
-                      border: Border.all(color: Styles.bgColor, width: 3)),
+                    image: const DecorationImage(
+                      image: AssetImage('assets/png/vet.png'),
+                      fit: BoxFit.cover,
+                    ),
+                    borderRadius: BorderRadius.circular(22),
+                    border: Border.all(color: Styles.bgColor, width: 3),
+                  ),
                 ),
                 Expanded(
                   child: MediaQuery.removeViewPadding(
                     context: context,
                     removeTop: true,
-                    child: ListView.separated(
-                        shrinkWrap: true,
-                        controller: _controller,
-                        itemBuilder: (c, i) {
-                          final vp = VeterinaryDetails.fromJson(veterinaryPackage[i]);
-                          return VetCard(vp);
-                        },
-                        separatorBuilder: (c, i) {
-                          return const Gap(12);
-                        },
-                        itemCount: veterinaryPackage.length),
+                    child: StreamBuilder<List<Vet>>(
+                      stream: _firebaseService.getVet(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return Center(child: Text('Error: ${snapshot.error}'));
+                        }
+
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(child: CircularProgressIndicator());
+                        }
+
+                        final vets = snapshot.data ?? [];
+
+                        return ListView.separated(
+                          controller: _controller,
+                          itemCount: vets.length,
+                          separatorBuilder: (c, i) => const Gap(12),
+                          itemBuilder: (context, index) {
+                            final vet = vets[index];
+                            return Card(
+                              elevation: 2,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      vet.nama,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const Gap(8),
+                                    Text(
+                                      vet.deskripsi,
+                                      style: TextStyle(
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                                    const Gap(12),
+                                    Text(
+                                      'Available Schedule:',
+                                      style: TextStyle(
+                                        color: Styles.blackColor,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    const Gap(8),
+                                    ...vet.jadwal.entries.map((entry) => Padding(
+                                      padding: const EdgeInsets.only(bottom: 4),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            width: 80,
+                                            child: Text(
+                                              entry.key,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              entry.value.join(', '),
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )).toList(),
+                                    const Gap(12),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Rp ${vet.harga.toStringAsFixed(0)}',
+                                          style: TextStyle(
+                                            color: Styles.highlightColor,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {},
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Styles.bgColor,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(20),
+                                            ),
+                                          ),
+                                          child: const Text('Book Now'),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -152,14 +191,17 @@ class _VetPageState extends State<VetPage> {
               children: [
                 const PetBackButton(),
                 const Gap(20),
-                Text('Pet Veterinary',
-                    style: TextStyle(
-                        color: Styles.blackColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18))
+                Text(
+                  'Pet Veterinary',
+                  style: TextStyle(
+                    color: Styles.blackColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

@@ -1,11 +1,11 @@
-import 'package:pawtrack/models/package.dart';
-import 'package:pawtrack/utils/layouts.dart';
-import 'package:pawtrack/utils/styles.dart';
-import 'package:pawtrack/widgets/back_button.dart';
-import 'package:pawtrack/widgets/package_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import '../services/grooming_service.dart';
+import '../models/grooming_models.dart';
+import '../utils/layouts.dart';
+import '../utils/styles.dart';
+import '../widgets/back_button.dart';
 
 class GroomingPage extends StatefulWidget {
   const GroomingPage({Key? key}) : super(key: key);
@@ -15,43 +15,9 @@ class GroomingPage extends StatefulWidget {
 }
 
 class _GroomingPageState extends State<GroomingPage> {
-  List groomingList = [
-    {
-      'name': 'Mandi Spa',
-      'services': 7,
-      'bonus': 160,
-      'price': 960,
-    },
-    {
-      'name': 'Mandi + Perawatan Dasar',
-      'services': 10,
-      'bonus': 239,
-      'price': 1438,
-    },
-    {
-      'name': 'Layanan Lengkap',
-      'services': 12,
-      'bonus': 299,
-      'price': 1798,
-    },
-  ];
-
+  final FirebaseService _firebaseService = FirebaseService();
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
-  final List _packages = [];
-
-  @override
-  void initState() {
-    Future.delayed(const Duration(seconds: 1), () {
-      for (var i = 0; i < groomingList.length; i++) {
-        setState(() {
-          listKey.currentState!
-              .insertItem(0, duration: Duration(milliseconds: 500 - i * 200));
-          _packages.add(groomingList[i]);
-        });
-      }
-    });
-    super.initState();
-  }
+  final List<Grooming> _services = [];
 
   @override
   Widget build(BuildContext context) {
@@ -64,167 +30,180 @@ class _GroomingPageState extends State<GroomingPage> {
             Stack(
               children: [
                 TweenAnimationBuilder<double>(
-                    tween: Tween(begin: 0, end: 1),
-                    duration: const Duration(milliseconds: 500),
-                    builder: (context, value, _) {
-                      return Stack(
-                        children: [
-                          Container(
-                            width: value * size.width,
-                            height: value * size.width,
-                            decoration: BoxDecoration(
-                                color: Styles.bgColor,
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft:
-                                  Radius.circular(value * size.width / 2),
-                                  bottomRight:
-                                  Radius.circular(value * size.width / 2),
-                                )),
-                            child: Column(
-                              children: [
-                                Gap(value * 50),
-                                AnimatedSize(
-                                  curve: Curves.bounceInOut,
-                                  duration: const Duration(seconds: 1),
-                                  child: SvgPicture.asset(
-                                    'assets/svg/person2.svg',
-                                    height: value * 200,
-                                  ),
-                                ),
-                                Gap(value * 20),
-                                Text(
-                                  'Select your pet',
-                                  style: TextStyle(
-                                      fontSize: value * 15, height: 2),
-                                ),
-                                const Spacer()
-                              ],
+                  tween: Tween(begin: 0, end: 1),
+                  duration: const Duration(milliseconds: 500),
+                  builder: (context, value, _) {
+                    return Stack(
+                      children: [
+                        Container(
+                          width: value * size.width,
+                          height: value * size.width,
+                          decoration: BoxDecoration(
+                            color: Styles.bgColor,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(value * size.width / 2),
+                              bottomRight: Radius.circular(value * size.width / 2),
                             ),
                           ),
-                          const Positioned(
-                              left: 15, top: 50, child: PetBackButton()),
-                          Positioned(
-                              left: size.width * 0.3,
-                              right: size.width * 0.3,
-                              bottom: 40,
-                              child: AnimatedScale(
-                                scale: value,
+                          child: Column(
+                            children: [
+                              Gap(value * 50),
+                              AnimatedSize(
                                 curve: Curves.bounceInOut,
-                                duration: const Duration(milliseconds: 400),
-                                child: ElevatedButton(
-                                    onPressed: () {},
-                                    style: ElevatedButton.styleFrom(
-                                      elevation: 0,
-                                      fixedSize: Size(value * 150, value * 44),
-                                      backgroundColor: Styles.bgWithOpacityColor,
-                                      shape: const StadiumBorder(),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 0),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                      children: [
-                                        SvgPicture.asset(
-                                            'assets/svg/dog_icon.svg',
-                                            height: value * 30),
-                                        const Spacer(),
-                                        Text('Dog',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Styles.highlightColor,
-                                                fontSize: value * 16)),
-                                        const Spacer(),
-                                        SvgPicture.asset(
-                                            'assets/svg/arrow_down.svg',
-                                            height: value * 30)
-                                      ],
-                                    )),
-                              ))
-                        ],
-                      );
-                    }),
+                                duration: const Duration(seconds: 1),
+                                child: SvgPicture.asset(
+                                  'assets/svg/person2.svg',
+                                  height: value * 200,
+                                ),
+                              ),
+                              Gap(value * 20),
+                              const Spacer()
+                            ],
+                          ),
+                        ),
+                        const Positioned(
+                          left: 15,
+                          top: 50,
+                          child: PetBackButton(),
+                        ),
+                      ],
+                    );
+                  },
+                ),
               ],
             ),
             const Gap(5),
             TweenAnimationBuilder<double>(
-                tween: Tween(begin: 0, end: 1),
-                curve: Curves.easeInExpo,
-                duration: const Duration(milliseconds: 500),
-                builder: (context, value, _) {
-                  return Text(
-                    'Dog Grooming Packages',
-                    style: TextStyle(
-                        color: Styles.blackColor,
-                        fontSize: value*25,
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  );
-                }
+              tween: Tween(begin: 0, end: 1),
+              curve: Curves.easeInExpo,
+              duration: const Duration(milliseconds: 500),
+              builder: (context, value, _) {
+                return Text(
+                  'Grooming Services',
+                  style: TextStyle(
+                    color: Styles.blackColor,
+                    fontSize: value * 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                );
+              },
             ),
             const Gap(5),
-            MediaQuery.removeViewPadding(
-              context: context,
-              removeTop: true,
-              child: AnimatedList(
+            StreamBuilder<List<Grooming>>(
+              stream: _firebaseService.getGrooming(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                }
+
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                }
+
+                final services = snapshot.data ?? [];
+
+                return ListView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   shrinkWrap: true,
-                  initialItemCount: _packages.length,
-                  key: listKey,
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (c, i, animation) {
-                    final package = Package.fromJson(groomingList[i]);
-                    return SlideTransition(
-                      position: Tween<Offset>(
-                        begin: const Offset(-0.5, 0),
-                        end: const Offset(0, 0),
-                      ).animate(CurvedAnimation(
-                        parent: animation,
-                        curve: Curves.easeIn,
-                      )),
-                      child: PackageCard(package),
-                    );
-                  }),
-            ),
-            TweenAnimationBuilder<double>(
-                tween: Tween(begin: 0, end: 1),
-                curve: Curves.easeInExpo,
-                duration: const Duration(seconds: 1),
-                builder: (context, value, _) {
-                  return AnimatedScale(
-                    scale: value,
-                    curve: Curves.bounceOut,
-                    duration: const Duration(seconds: 1),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        fixedSize: const Size(215, 44),
-                        backgroundColor: Styles.bgColor,
-                        shape: const StadiumBorder(),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 0),
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: services.length,
+                  itemBuilder: (context, index) {
+                    final service = services[index];
+                    return Card(
+                      elevation: 2,
+                      margin: const EdgeInsets.only(bottom: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Gap(0),
-                          Text('Select your package',
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              service.nama,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const Gap(8),
+                            Text(
+                              service.deskripsi,
                               style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: Styles.highlightColor,
-                                  fontSize: 15)),
-                          CircleAvatar(
-                              radius: 15,
-                              backgroundColor: Styles.bgWithOpacityColor,
-                              child: SvgPicture.asset(
-                                  'assets/svg/arrow_down2.svg',
-                                  height: 7))
-                        ],
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                            const Gap(8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Duration: ${service.durasi}',
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                                Text(
+                                  'Rp ${service.harga.toStringAsFixed(0)}',
+                                  style: TextStyle(
+                                    color: Styles.highlightColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Gap(8),
+                            Text(
+                              'Schedule: ${service.jadwal}',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
+                    );
+                  },
+                );
+              },
+            ),
+            const Gap(20),
+            ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                fixedSize: const Size(215, 44),
+                backgroundColor: Styles.bgColor,
+                shape: const StadiumBorder(),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Gap(0),
+                  Text(
+                    'Book a Service',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: Styles.highlightColor,
+                      fontSize: 15,
                     ),
-                  );
-                }),
+                  ),
+                  CircleAvatar(
+                    radius: 15,
+                    backgroundColor: Styles.bgWithOpacityColor,
+                    child: SvgPicture.asset(
+                      'assets/svg/arrow_down2.svg',
+                      height: 7,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Gap(20),
           ],
         ),
       ),
