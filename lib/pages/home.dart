@@ -1,4 +1,3 @@
-import 'package:pawtrack/pages/grooming_page.dart';
 import 'package:pawtrack/pages/vet_page.dart';
 import 'package:pawtrack/utils/layouts.dart';
 import 'package:pawtrack/utils/styles.dart';
@@ -8,6 +7,8 @@ import 'package:pawtrack/widgets/stories_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:pawtrack/pages/grooming_detail.dart';
+import 'package:pawtrack/pages/grooming_page.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);

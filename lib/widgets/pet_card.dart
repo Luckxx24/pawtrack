@@ -1,8 +1,8 @@
-import 'package:pawtrack/pages/grooming_page.dart';
 import 'package:pawtrack/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:pawtrack/pages/grooming_page.dart';
 
 class PetCard extends StatefulWidget {
   final double? height;

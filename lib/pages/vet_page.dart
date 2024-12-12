@@ -1,3 +1,4 @@
+//vet page (masih error)
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import '../services/vet_service.dart';
@@ -6,7 +7,7 @@ import '../utils/styles.dart';
 import '../widgets/back_button.dart';
 
 class VetPage extends StatefulWidget {
-  const VetPage({Key? key}) : super(key: key);
+  const VetPage({super.key});
 
   @override
   State<VetPage> createState() => _VetPageState();
@@ -145,7 +146,7 @@ class _VetPageState extends State<VetPage> {
                                           ),
                                         ],
                                       ),
-                                    )).toList(),
+                                    )),
                                     const Gap(12),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
