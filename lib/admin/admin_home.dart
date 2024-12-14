@@ -10,10 +10,10 @@ import 'package:pawtrack/utils/styles.dart';
 import 'package:pawtrack/widgets/animated_title.dart';
 import 'package:pawtrack/widgets/pet_card.dart';
 
-class Home extends StatelessWidget {
+class AdminHome extends StatelessWidget {
   final Users currentUser;
 
-  const Home({
+  const AdminHome({
     Key? key,
     required this.currentUser,
   }) : super(key: key);

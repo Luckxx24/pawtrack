@@ -3,7 +3,7 @@ import '../models/users_models.dart';
 
 class FirebaseService {
   final CollectionReference _collection =
-  FirebaseFirestore.instance.collection('adopt');
+  FirebaseFirestore.instance.collection('users');
 
   // Create or update data
   Future<void> saveUsers(Users users) async {
