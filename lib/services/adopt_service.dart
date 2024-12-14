@@ -28,12 +28,4 @@ class FirebaseService {
     });
   }
 
-  Future<void> diadopsi(String id, String status) async {
-     try { 
-      await _collection.doc(id).update({'status': status}); 
-      }
-     catch (e) {
-      print('Error updating status: $e'); 
-     } 
-   }
 }

@@ -21,11 +21,11 @@ class Adopt {
   factory Adopt.fromMap(Map<String, dynamic> map) {
     return Adopt(
         deskripsi: map['deskripsi'] ?? '',
-      id: map['id'] ?? '',
+        id: map['id'] ?? '',
         image: map['image'] ?? '',
         jenis: map['jenis'] ?? '',
         nama: map['nama'] ?? '',
-      status: map['status'] ?? '',
+        status: map['status'] ?? '',
         usia: map['usia']?.toDouble() ?? 0.0,
     );
   }
@@ -34,7 +34,7 @@ class Adopt {
   Map<String, dynamic> toMap() {
     return {
       'deskripsi': deskripsi,
-      'studentID': id,
+      'id': id,
       'image': image,
       'jenis': jenis,
       'nama': nama,

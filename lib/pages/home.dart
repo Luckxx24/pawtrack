@@ -118,7 +118,7 @@ class Home extends StatelessWidget {
               Gap(28),
               PetCard(
                 petPath: 'assets/svg/dog1.svg',
-                petName: 'Adopsi hewan',
+                petName: 'Adopsi anjing',
                 height: 68,
                 hewan: 'anjing',
               ),

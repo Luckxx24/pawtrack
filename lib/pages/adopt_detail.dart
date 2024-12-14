@@ -93,7 +93,7 @@ class AdoptDetailPage extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () async {
                   // Mengubah status hewan adopsi menjadi diadopsi sehingga ga muncul lagi
-                  await _firebaseService.diadopsi(adopt.id, 'diadopsi');
+                  await _firebaseService.updateAdopt(adopt.nama, {'status': 'diadopsi'});
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Hewan berhasil diadopsi'),

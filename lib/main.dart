@@ -1,6 +1,5 @@
 import 'package:pawtrack/firebase_options.dart';
 import 'package:pawtrack/pages/get_started.dart';
-import 'package:pawtrack/pages/grooming_page.dart';
 import 'package:pawtrack/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
