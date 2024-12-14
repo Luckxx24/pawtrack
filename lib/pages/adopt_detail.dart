@@ -3,13 +3,16 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:pawtrack/models/adopt_models.dart';
+import 'package:pawtrack/services/adopt_service.dart';
 import 'package:pawtrack/utils/styles.dart';
 
 class AdoptDetailPage extends StatelessWidget {
 
   final Adopt adopt;
 
-  const AdoptDetailPage({super.key, required this.adopt});
+  final FirebaseService _firebaseService = FirebaseService();
+
+  AdoptDetailPage({super.key, required this.adopt});
 
   @override
   Widget build(BuildContext context) {
@@ -88,8 +91,9 @@ class AdoptDetailPage extends StatelessWidget {
             const Gap(16),  // Add gap before button for spacing
             Center(
               child: ElevatedButton(
-                onPressed: () {
-                  // TODO: Add booking functionality
+                onPressed: () async {
+                  // Mengubah status hewan adopsi menjadi diadopsi sehingga ga muncul lagi
+                  await _firebaseService.diadopsi(adopt.id, 'diadopsi');
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Hewan berhasil diadopsi'),
