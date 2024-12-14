@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         colorScheme:
         ColorScheme.fromSwatch().copyWith(primary: Styles.blackColor),
       ),
-      home: const GetStarted(),
+      home: const LoginPage(),
     );
   }
 }
