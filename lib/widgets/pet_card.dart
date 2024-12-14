@@ -1,3 +1,4 @@
+import 'package:pawtrack/pages/adopt_page.dart';
 import 'package:pawtrack/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -29,7 +30,7 @@ class _PetCardState extends State<PetCard> {
       child: InkWell(
         onTap: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (_) => const GroomingPage()));
+              context, MaterialPageRoute(builder: (context) => const AdoptPage()));
         },
         child: TweenAnimationBuilder<double>(
             tween: Tween(begin: 0, end: 1),

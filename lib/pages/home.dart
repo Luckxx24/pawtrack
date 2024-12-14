@@ -111,7 +111,10 @@ class Home extends StatelessWidget {
           const Gap(10),
           Row(
             children: const [
-              PetCard(petPath: 'assets/svg/cat1.svg', petName: 'Adopsi kucing'),
+              PetCard(
+                petPath: 'assets/svg/cat1.svg', 
+                petName: 'Adopsi kucing'
+                ),
               Gap(28),
               PetCard(
                 petPath: 'assets/svg/dog1.svg',
