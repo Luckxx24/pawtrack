@@ -36,7 +36,7 @@ class AdoptDetailPage extends StatelessWidget {
               ),
               child: Center(
                 child: SvgPicture.asset(
-                  'assets/svg/person2.svg',
+                  adopt.jenis == 'dog' ? 'assets/svg/dog1.svg' : 'assets/svg/cat1.svg',
                   height: 150,
                 ),
               ),
