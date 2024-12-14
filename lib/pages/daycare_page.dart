@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // Untuk formatting tanggal
 import 'package:pawtrack/services/daycare_service.dart';
+import 'package:pawtrack/utils/styles.dart';
 import '../models/daycare_models.dart';
 
 
@@ -19,6 +20,7 @@ class _DaycarePageState extends State<DaycarePage> {
   // Variabel untuk menyimpan jadwal terpilih
   DateTime? _selectedDate;
   String? _selectedJadwal;
+  String? _selectedHewan;
 
   // Daftar jadwal yang tersedia
   final List<String> _jadwalOptions = [
@@ -33,6 +35,12 @@ class _DaycarePageState extends State<DaycarePage> {
     'Mingguan (7 hari)': 300000,
     'Bulanan (30 hari)': 1000000,
   };
+
+  // Daftar jadwal yang tersedia
+  List<String> _jenisOptions = [
+    'Kucing',
+    'Anjing',
+  ];
 
   // Layanan Firebase untuk daycare
   final FirebaseService _daycareServices = FirebaseService();
@@ -76,6 +84,11 @@ class _DaycarePageState extends State<DaycarePage> {
       return;
     }
 
+    if (_selectedHewan == null) {
+      _showSnackBar("Pilih jenis hewan");
+      return;
+    }
+
     // Buat objek Daycare
     final daycare = Daycare(
       nama: _namaHewanController.text,
@@ -84,6 +97,8 @@ class _DaycarePageState extends State<DaycarePage> {
       deskripsi: _deskripsiController.text, 
       harga: _hargaJadwal[_selectedJadwal]!,
       jadwal: _selectedDate!,
+      status: 'menunggu',
+      jenis: _selectedHewan!,
     );
 
     // Simpan ke Firebase
@@ -103,7 +118,8 @@ class _DaycarePageState extends State<DaycarePage> {
         title: const Text('Booking Berhasil'),
         content: Text(
           'Layanan penitipan hewan Anda telah terdaftar.\n\n'
-          'Total Biaya: Rp ${NumberFormat.currency(locale: 'id_ID', decimalDigits: 0).format(harga)}',
+          // 'Total Biaya: Rp ${NumberFormat.currency(locale: 'id_ID', decimalDigits: 0).format(harga)}',
+          'Total Biaya: Rp $harga,00',
         ),
         actions: [
           TextButton(
@@ -133,6 +149,7 @@ class _DaycarePageState extends State<DaycarePage> {
       _deskripsiController.clear();
       _selectedJadwal = null;
       _selectedDate = null;
+      _selectedHewan = null;
     });
   }
 
@@ -150,9 +167,20 @@ class _DaycarePageState extends State<DaycarePage> {
             // Input Nama Hewan
             TextField(
               controller: _namaHewanController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Nama Hewan',
-                border: OutlineInputBorder(),
+                // prefixIcon: Icon(Icons.email_outlined, color: Styles.highlightColor),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Styles.bgColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Styles.highlightColor),
+                    ),
               ),
             ),
             const SizedBox(height: 16),
@@ -161,18 +189,71 @@ class _DaycarePageState extends State<DaycarePage> {
             TextField(
               controller: _deskripsiController,
               maxLines: 3,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Deskripsi Keadaan Hewan',
-                border: OutlineInputBorder(),
+                // prefixIcon: Icon(Icons.email_outlined, color: Styles.highlightColor),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(width: 10.0)
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Styles.bgColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Styles.highlightColor),
+                    ),
               ),
             ),
             const SizedBox(height: 16),
 
+
+            DropdownButtonFormField<String>(
+              decoration: InputDecoration(
+                labelText: 'Pilih Jenis Hewan',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Styles.bgColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Styles.highlightColor),
+                    ),
+              ),
+              value: _selectedHewan,
+              items: _jenisOptions.map((jenis) {
+                return DropdownMenuItem(
+                  value: jenis,
+                  child: Text(jenis),
+                );
+              }).toList(),
+              onChanged: (value) {
+                setState(() {
+                  _selectedHewan = value;
+                });
+              },
+            ),
+            const SizedBox(height: 16,),
+
             // Dropdown Pilih Jadwal
             DropdownButtonFormField<String>(
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Pilih Jadwal Penitipan',
-                border: OutlineInputBorder(),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Styles.bgColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Styles.highlightColor),
+                    ),
               ),
               value: _selectedJadwal,
               items: _jadwalOptions.map((jadwal) {
@@ -212,7 +293,7 @@ class _DaycarePageState extends State<DaycarePage> {
               onPressed: _bookDaycare,
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
-                backgroundColor: Colors.blue,
+                backgroundColor: Styles.highlightColor,
               ),
               child: const Text(
                 'Titip Hewan', 

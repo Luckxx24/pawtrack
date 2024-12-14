@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:pawtrack/models/users_models.dart';
+import 'package:pawtrack/pages/adopt_page.dart';
+import 'package:pawtrack/pages/daycare_page.dart';
 import 'package:pawtrack/pages/grooming_page.dart';
 import 'package:pawtrack/pages/profile_page.dart';
 import 'package:pawtrack/pages/vet_page.dart';
@@ -21,14 +23,36 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> navItems = [
-      {'text': 'Adopt', 'icon': 'assets/nav_icons/dog_icon.svg'},
-      {'text': 'Grooming', 'icon': 'assets/nav_icons/cut_icon.svg', 'page': const GroomingPage()},
-      {'text': 'Vet', 'icon': 'assets/nav_icons/vet_icon.svg', 'page': const VetPage()},
+      {
+        'text': 'Adopt',
+        'icon': 'assets/nav_icons/dog_icon.svg',
+        'page': const AdoptPage()
+      },
+
+      {
+        'text': 'Care',
+        'icon': 'assets/nav_icons/cat-kitty.svg',
+        'page': const DaycarePage()
+      },
+
+      {
+        'text': 'Grooming',
+        'icon': 'assets/nav_icons/cut_icon.svg',
+        'page': const GroomingPage()
+      },
+
+      {
+        'text': 'Vet',
+        'icon': 'assets/nav_icons/vet_icon.svg',
+        'page': const VetPage()
+      },
+
       {
         'text': 'Profile',
         'icon': 'assets/nav_icons/account-svgrepo-com.svg',
         'page': ProfilePage(currentUser: currentUser)
       },
+
     ];
 
     return Scaffold(

@@ -1,5 +1,6 @@
 import 'package:pawtrack/firebase_options.dart';
 import 'package:pawtrack/pages/daycare_page.dart';
+import 'package:pawtrack/pages/home.dart';
 import 'package:pawtrack/pages/login_page.dart';
 import 'package:pawtrack/utils/styles.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         colorScheme:
         ColorScheme.fromSwatch().copyWith(primary: Styles.blackColor),
       ),
-      home: const DaycarePage(),
+      home: const LoginPage(),
     );
   }
 }

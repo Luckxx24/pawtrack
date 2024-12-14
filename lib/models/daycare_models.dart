@@ -7,6 +7,8 @@ class Daycare {
   final String deskripsi;
   final double harga;
   final DateTime jadwal;
+  final String status;
+  final String jenis;
 
   Daycare ({
     required this.nama,
@@ -14,7 +16,9 @@ class Daycare {
     required this.jadwal,
     required this.deskripsi,
     required this.harga,
-    required this.durasi
+    required this.durasi,
+    required this.status,
+    required this.jenis
   });
 
   // Convert Firebase document to model
@@ -26,6 +30,8 @@ class Daycare {
       deskripsi: map['deskripsi'] ?? '',
       harga: map['harga']?.toDouble() ?? 0.0,
       durasi: map['durasi']?? '',
+      status: map['status']?? '',
+      jenis: map['jenis']?? '',
     );
   }
 
@@ -38,6 +44,8 @@ class Daycare {
       'deskripsi': deskripsi,
       'harga':harga,
       'durasi': durasi,
+      'status': status,
+      'jenis': jenis,
     };
   }
 }
