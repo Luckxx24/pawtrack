@@ -4,7 +4,7 @@ class Users {
   final String profile_picture;
   final double role;
   final String email;
-  
+
 
   Users({
     required this.nama,
