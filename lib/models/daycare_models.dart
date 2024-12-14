@@ -1,9 +1,12 @@
+import 'package:intl/intl.dart';
+
 class Daycare {
   final String nama;
   final String id;
-  final String jadwal;
+  final String durasi;
   final String deskripsi;
   final double harga;
+  final DateTime jadwal;
 
   Daycare ({
     required this.nama,
@@ -11,6 +14,7 @@ class Daycare {
     required this.jadwal,
     required this.deskripsi,
     required this.harga,
+    required this.durasi
   });
 
   // Convert Firebase document to model
@@ -21,6 +25,7 @@ class Daycare {
       jadwal: map['jadwal'] ?? '',
       deskripsi: map['deskripsi'] ?? '',
       harga: map['harga']?.toDouble() ?? 0.0,
+      durasi: map['durasi']?? '',
     );
   }
 
@@ -31,7 +36,8 @@ class Daycare {
       'id': id,
       'jadwal': jadwal,
       'deskripsi': deskripsi,
-      'harga':harga
+      'harga':harga,
+      'durasi': durasi,
     };
   }
 }

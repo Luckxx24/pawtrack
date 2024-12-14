@@ -83,7 +83,7 @@ class _DogAdoptPageState extends State<DogAdoptPage> {
               duration: const Duration(milliseconds: 500),
               builder: (context, value, _) {
                 return Text(
-                  'Adopsi Hewan',
+                  'Adopsi Anjing',
                   style: TextStyle(
                     color: Styles.blackColor,
                     fontSize: value * 25,
