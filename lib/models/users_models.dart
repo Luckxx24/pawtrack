@@ -2,9 +2,9 @@ class Users {
   final String nama;
   final String id;
   final String profile_picture;
-  final double role;
+  final String role;
   final String email;
-
+  final String password;
 
   Users({
     required this.nama,
@@ -12,6 +12,7 @@ class Users {
     required this.profile_picture,
     required this.role,
     required this.email,
+    required this.password,
   });
 
   // Convert Firebase document to model
@@ -22,6 +23,7 @@ class Users {
       id: map['id'] ?? '',
       profile_picture: map['profile_picture'] ?? '',
       role: map['role']?? '',
+      password:  map['password']
     );
   }
 
@@ -33,6 +35,7 @@ class Users {
       'id':id,
       'profile_picture':profile_picture,
       'role': role,
+      'password': password,
     };
   }
 }
