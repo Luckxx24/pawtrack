@@ -1,10 +1,10 @@
-//vet page (masih error)
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import '../services/vet_service.dart';
 import '../models/vet_models.dart';
 import '../utils/styles.dart';
 import '../widgets/back_button.dart';
+import 'vet_detail.dart';
 
 class VetPage extends StatefulWidget {
   const VetPage({super.key});
@@ -89,89 +89,99 @@ class _VetPageState extends State<VetPage> {
                           separatorBuilder: (c, i) => const Gap(12),
                           itemBuilder: (context, index) {
                             final vet = vets[index];
-                            return Card(
-                              elevation: 2,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      vet.nama,
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => VetDetailPage(vet: vet),
+                                  ),
+                                );
+                              },
+                              child: Card(
+                                elevation: 2,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        vet.nama,
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                    const Gap(8),
-                                    Text(
-                                      vet.deskripsi,
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
+                                      const Gap(8),
+                                      Text(
+                                        vet.deskripsi,
+                                        style: TextStyle(
+                                          color: Colors.grey[600],
+                                        ),
                                       ),
-                                    ),
-                                    const Gap(12),
-                                    Text(
-                                      'Available Schedule:',
-                                      style: TextStyle(
-                                        color: Styles.blackColor,
-                                        fontWeight: FontWeight.w600,
+                                      const Gap(12),
+                                      Text(
+                                        'Available Schedule:',
+                                        style: TextStyle(
+                                          color: Styles.blackColor,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
-                                    ),
-                                    const Gap(8),
-                                    ...vet.jadwal.entries.map((entry) => Padding(
-                                      padding: const EdgeInsets.only(bottom: 4),
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            width: 80,
-                                            child: Text(
-                                              entry.key,
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.w500,
+                                      const Gap(8),
+                                      ...vet.jadwal.entries.map((entry) => Padding(
+                                        padding: const EdgeInsets.only(bottom: 4),
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: 80,
+                                              child: Text(
+                                                entry.key,
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                ),
                                               ),
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                entry.value.join(', '),
+                                                style: TextStyle(
+                                                  color: Colors.grey[600],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )),
+                                      const Gap(12),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Rp ${vet.harga.toStringAsFixed(0)}',
+                                            style: TextStyle(
+                                              color: Styles.highlightColor,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
                                             ),
                                           ),
-                                          Expanded(
-                                            child: Text(
-                                              entry.value.join(', '),
-                                              style: TextStyle(
-                                                color: Colors.grey[600],
+                                          ElevatedButton(
+                                            onPressed: () {},
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: Styles.bgColor,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(20),
                                               ),
                                             ),
+                                            child: const Text('Book Now'),
                                           ),
                                         ],
                                       ),
-                                    )),
-                                    const Gap(12),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Rp ${vet.harga.toStringAsFixed(0)}',
-                                          style: TextStyle(
-                                            color: Styles.highlightColor,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                        ElevatedButton(
-                                          onPressed: () {},
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Styles.bgColor,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(20),
-                                            ),
-                                          ),
-                                          child: const Text('Book Now'),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
