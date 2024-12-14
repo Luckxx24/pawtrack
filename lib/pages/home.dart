@@ -7,7 +7,6 @@ import 'package:pawtrack/widgets/stories_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
-import 'package:pawtrack/pages/grooming_detail.dart';
 import 'package:pawtrack/pages/grooming_page.dart';
 
 class Home extends StatelessWidget {
@@ -113,13 +112,15 @@ class Home extends StatelessWidget {
             children: const [
               PetCard(
                 petPath: 'assets/svg/cat1.svg', 
-                petName: 'Adopsi kucing'
+                petName: 'Adopsi kucing',
+                hewan: 'kucing',
                 ),
               Gap(28),
               PetCard(
                 petPath: 'assets/svg/dog1.svg',
                 petName: 'Adopsi hewan',
                 height: 68,
+                hewan: 'anjing',
               ),
             ],
           ),

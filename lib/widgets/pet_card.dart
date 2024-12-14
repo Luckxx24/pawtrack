@@ -1,16 +1,18 @@
-import 'package:pawtrack/pages/adopt_page.dart';
+import 'package:pawtrack/pages/cat_adopt_page.dart';
+import 'package:pawtrack/pages/dog_adopt_page.dart';
 import 'package:pawtrack/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
-import 'package:pawtrack/pages/grooming_page.dart';
 
 class PetCard extends StatefulWidget {
   final double? height;
   final String petPath;
   final String petName;
+  final String hewan;
+
   const PetCard(
-      {Key? key, required this.petPath, required this.petName, this.height})
+      {Key? key, required this.petPath, required this.petName, this.height, required this.hewan})
       : super(key: key);
 
   @override
@@ -30,7 +32,13 @@ class _PetCardState extends State<PetCard> {
       child: InkWell(
         onTap: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => const AdoptPage()));
+              context, MaterialPageRoute(builder: (context) {
+                if (widget.hewan == 'kucing') {
+                  return CatAdoptPage();
+                }else{
+                  return DogAdoptPage();
+                }
+              }));
         },
         child: TweenAnimationBuilder<double>(
             tween: Tween(begin: 0, end: 1),

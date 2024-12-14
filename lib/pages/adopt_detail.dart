@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
@@ -41,7 +40,7 @@ class AdoptDetailPage extends StatelessWidget {
             ),
             const Gap(16),
             Text(
-              adopt.nama,
+              'Nama : ${adopt.nama}',
               style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -49,7 +48,7 @@ class AdoptDetailPage extends StatelessWidget {
             ),
             const Gap(8),
             Text(
-              adopt.usia.toString(),
+              'Usia : ${adopt.usia.toStringAsFixed(0)} tahun',
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey[700],
@@ -60,14 +59,14 @@ class AdoptDetailPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Duration: ${adopt.deskripsi}',
+                  'Deskripsi : ${adopt.deskripsi}',
                   style: TextStyle(
                     color: Colors.grey[600],
                     fontSize: 16,
                   ),
                 ),
                 Text(
-                  'Price: Rp ${adopt.usia.toStringAsFixed(0)}',
+                  'Status : ${adopt.status}',
                   style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
@@ -76,14 +75,14 @@ class AdoptDetailPage extends StatelessWidget {
                 ),
               ],
             ),
-            const Gap(16),
-            Text(
-              'Schedule: ${adopt.nama}',
-              style: TextStyle(
-                color: Colors.grey[600],
-                fontSize: 16,
-              ),
-            ),
+            // const Gap(16),
+            // Text(
+            //   'Schedule: ${adopt.nama}',
+            //   style: TextStyle(
+            //     color: Colors.grey[600],
+            //     fontSize: 16,
+            //   ),
+            // ),
             // Removed the Spacer that was causing layout issues.
             // It's better to control the spacing with a Gap instead.
             const Gap(16),  // Add gap before button for spacing
@@ -93,7 +92,7 @@ class AdoptDetailPage extends StatelessWidget {
                   // TODO: Add booking functionality
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('Service booked successfully!'),
+                      content: Text('Hewan berhasil diadopsi'),
                     ),
                   );
                 },
@@ -103,7 +102,7 @@ class AdoptDetailPage extends StatelessWidget {
                   shape: const StadiumBorder(),
                 ),
                 child: const Text(
-                  'Book Now',
+                  'Adopsi',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
