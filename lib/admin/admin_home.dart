@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:pawtrack/admin/admin_grooming_page.dart';
 import 'package:pawtrack/models/users_models.dart';
-import 'package:pawtrack/pages/grooming_page.dart';
 import 'package:pawtrack/pages/profile_page.dart';
-import 'package:pawtrack/pages/vet_page.dart';
 import 'package:pawtrack/utils/layouts.dart';
 import 'package:pawtrack/utils/styles.dart';
 import 'package:pawtrack/widgets/animated_title.dart';
@@ -21,9 +20,30 @@ class AdminHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> navItems = [
-      {'text': 'Adopt', 'icon': 'assets/nav_icons/dog_icon.svg'},
-      {'text': 'Grooming', 'icon': 'assets/nav_icons/cut_icon.svg', 'page': const GroomingPage()},
-      {'text': 'Vet', 'icon': 'assets/nav_icons/vet_icon.svg', 'page': const VetPage()},
+      // {
+      //   'text': 'Adopt',
+      //   'icon': 'assets/nav_icons/dog_icon.svg',
+      //   'page': AdminAdoptPage(currentUser: currentUser)
+      // },
+
+      // {
+      //   'text': 'Care',
+      //   'icon': 'assets/nav_icons/cat-kitty.svg',
+      //   'page': AdminDaycarePage(currentUser: currentUser)
+      // },
+
+      {
+        'text': 'Grooming',
+        'icon': 'assets/nav_icons/cut_icon.svg',
+        'page': AdminGroomingPage(currentUser: currentUser),
+      },
+
+      // {
+      //   'text': 'Vet',
+      //   'icon': 'assets/nav_icons/vet_icon.svg',
+      //   'page': AdminVetPage(),
+      // },
+
       {
         'text': 'Profile',
         'icon': 'assets/nav_icons/account-svgrepo-com.svg',
@@ -32,6 +52,9 @@ class AdminHome extends StatelessWidget {
     ];
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('AdoptMe'),
+      ),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),

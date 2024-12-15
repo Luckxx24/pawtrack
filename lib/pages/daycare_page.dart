@@ -203,7 +203,6 @@ class _DaycarePageState extends State<DaycarePage> {
                 // prefixIcon: Icon(Icons.email_outlined, color: Styles.highlightColor),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(width: 10.0)
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
