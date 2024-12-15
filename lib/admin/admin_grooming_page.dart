@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:pawtrack/models/users_models.dart';
 import '../models/grooming_models.dart';
 import '../services/grooming_service.dart';
 import '../utils/styles.dart';
 
-class AdminGroomingPage extends StatefulWidget {
-  const AdminGroomingPage({super.key, required Users currentUser});
+class GroomingPage extends StatefulWidget {
+  const GroomingPage({super.key});
 
   @override
-  State<AdminGroomingPage> createState() => _AdminGroomingPageState();
+  State<GroomingPage> createState() => _GroomingPageState();
 }
 
-class _AdminGroomingPageState extends State<AdminGroomingPage> {
+class _GroomingPageState extends State<GroomingPage> {
   final FirebaseService _firebaseService = FirebaseService();
 
   @override
@@ -56,9 +55,18 @@ class _AdminGroomingPageState extends State<AdminGroomingPage> {
                 child: ListTile(
                   title: Text(service.nama, style: const TextStyle(fontWeight: FontWeight.bold)),
                   subtitle: Text(service.deskripsi),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: () => _deleteService(service),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.edit, color: Colors.blue),
+                        onPressed: () => _showFormDialog(context, service: service),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed: () => _deleteService(service),
+                      ),
+                    ],
                   ),
                   onTap: () => _showFormDialog(context, service: service),
                 ),
@@ -88,28 +96,68 @@ class _AdminGroomingPageState extends State<AdminGroomingPage> {
               children: [
                 TextField(
                   controller: namaController,
-                  decoration: const InputDecoration(labelText: 'Nama'),
+                  decoration: InputDecoration(
+                    labelText: 'Nama',
+                    border: OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(Radius.circular(12)),
+                      borderSide: BorderSide(
+                        color: Styles.highlightColor,
+                      )
+                    )
+                    ),
                 ),
                 const Gap(8),
                 TextField(
                   controller: deskripsiController,
-                  decoration: const InputDecoration(labelText: 'Deskripsi'),
+                  decoration: InputDecoration(
+                      labelText: 'Deskripsi',
+                      border: OutlineInputBorder(
+                        borderRadius: const BorderRadius.all(Radius.circular(12)),
+                        borderSide: BorderSide(
+                        color: Styles.highlightColor,
+                        )
+                      )
+                    ),
                 ),
                 const Gap(8),
                 TextField(
                   controller: durasiController,
-                  decoration: const InputDecoration(labelText: 'Durasi'),
+                  decoration: InputDecoration(
+                    labelText: 'Durasi',
+                    border: OutlineInputBorder(
+                        borderRadius: const BorderRadius.all(Radius.circular(12)),
+                        borderSide: BorderSide(
+                        color: Styles.highlightColor,
+                        )
+                      )
+                    ),
                 ),
                 const Gap(8),
                 TextField(
                   controller: hargaController,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(labelText: 'Harga'),
+                  decoration: InputDecoration(
+                    labelText: 'Harga',
+                    border: OutlineInputBorder(
+                        borderRadius: const BorderRadius.all(Radius.circular(12)),
+                        borderSide: BorderSide(
+                        color: Styles.highlightColor,
+                        )
+                      )
+                    ),
                 ),
                 const Gap(8),
                 TextField(
                   controller: jadwalController,
-                  decoration: const InputDecoration(labelText: 'Jadwal'),
+                  decoration: InputDecoration(
+                    labelText: 'Jadwal',
+                    border: OutlineInputBorder(
+                        borderRadius: const BorderRadius.all(Radius.circular(12)),
+                        borderSide: BorderSide(
+                        color: Styles.highlightColor,
+                        )
+                      )
+                    ),
                 ),
               ],
             ),
@@ -135,13 +183,13 @@ class _AdminGroomingPageState extends State<AdminGroomingPage> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(service == null
-                          ? 'Service added successfully'
-                          : 'Service updated successfully'),
+                          ? 'Layanan Grooming baru berhasil ditambahkan'
+                          : 'Informasi layanan berhasil diperbaharui'),
                     ),
                   );
                 });
               },
-              child: Text(service == null ? 'Add' : 'Save'),
+              child: Text(service == null ? 'Tambah' : 'Simpan'),
             ),
           ],
         );
@@ -154,8 +202,8 @@ class _AdminGroomingPageState extends State<AdminGroomingPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Delete Service'),
-          content: Text('Are you sure you want to delete ${service.nama}?'),
+          title: const Text('Hapus Layanan'),
+          content: Text('Apakah anda yakin ingin menghapus ${service.nama}?'),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -166,7 +214,7 @@ class _AdminGroomingPageState extends State<AdminGroomingPage> {
                 _firebaseService.deleteGrooming(service.nama).then((_) {
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Service deleted successfully')),
+                    const SnackBar(content: Text('Layanan Berhasil Dihapus')),
                   );
                 });
               },
