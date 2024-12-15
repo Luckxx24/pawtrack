@@ -54,7 +54,7 @@ class _DogAdoptPageState extends State<DogAdoptPage> {
                                 curve: Curves.bounceInOut,
                                 duration: const Duration(seconds: 1),
                                 child: SvgPicture.asset(
-                                  'assets/svg/person2.svg',
+                                  'assets/svg/dog1.svg',
                                   height: value * 200,
                                 ),
                               ),
@@ -83,7 +83,7 @@ class _DogAdoptPageState extends State<DogAdoptPage> {
               duration: const Duration(milliseconds: 500),
               builder: (context, value, _) {
                 return Text(
-                  'Adopsi Hewan',
+                  'Adopsi Anjing',
                   style: TextStyle(
                     color: Styles.blackColor,
                     fontSize: value * 25,

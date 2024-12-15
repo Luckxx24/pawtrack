@@ -54,7 +54,7 @@ class _CatAdoptPageState extends State<CatAdoptPage> {
                                 curve: Curves.bounceInOut,
                                 duration: const Duration(seconds: 1),
                                 child: SvgPicture.asset(
-                                  'assets/svg/person2.svg',
+                                  'assets/svg/cat1.svg',
                                   height: value * 200,
                                 ),
                               ),
