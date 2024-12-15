@@ -9,6 +9,7 @@ class Daycare {
   final DateTime jadwal;
   final String status;
   final String jenis;
+  final String user;
 
   Daycare ({
     required this.nama,
@@ -18,7 +19,8 @@ class Daycare {
     required this.harga,
     required this.durasi,
     required this.status,
-    required this.jenis
+    required this.jenis,
+    required this.user,
   });
 
   // Convert Firebase document to model
@@ -32,6 +34,7 @@ class Daycare {
       durasi: map['durasi']?? '',
       status: map['status']?? '',
       jenis: map['jenis']?? '',
+      user: map['user']?? '',
     );
   }
 
@@ -46,6 +49,7 @@ class Daycare {
       'durasi': durasi,
       'status': status,
       'jenis': jenis,
+      'user': user,
     };
   }
 }

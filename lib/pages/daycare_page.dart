@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // Untuk formatting tanggal
+import 'package:pawtrack/models/users_models.dart';
 import 'package:pawtrack/services/daycare_service.dart';
 import 'package:pawtrack/utils/styles.dart';
 import '../models/daycare_models.dart';
 
 
 class DaycarePage extends StatefulWidget {
-  const DaycarePage({Key? key}) : super(key: key);
+  const DaycarePage({
+    Key? key,
+    required this.currentUser,
+    }) : super(key: key);
 
   @override
   _DaycarePageState createState() => _DaycarePageState();
+
+  final Users currentUser;
 }
 
 class _DaycarePageState extends State<DaycarePage> {
@@ -21,6 +27,8 @@ class _DaycarePageState extends State<DaycarePage> {
   DateTime? _selectedDate;
   String? _selectedJadwal;
   String? _selectedHewan;
+
+  
 
   // Daftar jadwal yang tersedia
   final List<String> _jadwalOptions = [
@@ -99,6 +107,7 @@ class _DaycarePageState extends State<DaycarePage> {
       jadwal: _selectedDate!,
       status: 'menunggu',
       jenis: _selectedHewan!,
+      user: widget.currentUser.nama,
     );
 
     // Simpan ke Firebase

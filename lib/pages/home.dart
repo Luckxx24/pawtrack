@@ -32,19 +32,19 @@ class Home extends StatelessWidget {
       {
         'text': 'Care',
         'icon': 'assets/nav_icons/cat-kitty.svg',
-        'page': const DaycarePage()
+        'page': DaycarePage(currentUser: currentUser)
       },
 
       {
         'text': 'Grooming',
         'icon': 'assets/nav_icons/cut_icon.svg',
-        'page': const GroomingPage()
+        'page': const GroomingPage(),
       },
 
       {
         'text': 'Vet',
         'icon': 'assets/nav_icons/vet_icon.svg',
-        'page': const VetPage()
+        'page': const VetPage(),
       },
 
       {
