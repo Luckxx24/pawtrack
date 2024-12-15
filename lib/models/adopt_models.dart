@@ -1,7 +1,7 @@
 class Adopt {
   final String deskripsi;
   final String id;
-  final String image;
+  // final String image;
   final String jenis;
   final String nama;
   final String status;
@@ -10,7 +10,7 @@ class Adopt {
   Adopt({
     required this.deskripsi,
     required this.id,
-    required this.image,
+    // required this.image,
     required this.jenis,
     required this.nama,
     required this.status,
@@ -22,7 +22,7 @@ class Adopt {
     return Adopt(
         deskripsi: map['deskripsi'] ?? '',
         id: map['id'] ?? '',
-        image: map['image'] ?? '',
+        // image: map['image'] ?? '',
         jenis: map['jenis'] ?? '',
         nama: map['nama'] ?? '',
         status: map['status'] ?? '',
@@ -35,7 +35,7 @@ class Adopt {
     return {
       'deskripsi': deskripsi,
       'id': id,
-      'image': image,
+      // 'image': image,
       'jenis': jenis,
       'nama': nama,
       'status': status,

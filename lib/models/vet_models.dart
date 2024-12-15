@@ -1,10 +1,12 @@
 class Vet {
+  final String id;
   final String nama;
   final String deskripsi;
   final Map<String, List<String>> jadwal;
   final double harga;
 
   Vet({
+    required this.id,
     required this.nama,
     required this.deskripsi,
     required this.jadwal,
@@ -13,6 +15,7 @@ class Vet {
 
   factory Vet.fromMap(Map<String, dynamic> map) {
     return Vet(
+      id: map['id'] ?? '',
       nama: map['nama'] ?? '',
       deskripsi: map['deskripsi'] ?? '',
       jadwal: Map<String, List<String>>.from(

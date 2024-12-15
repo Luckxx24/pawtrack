@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:pawtrack/admin/admin_adopt.dart';
 import 'package:pawtrack/admin/admin_grooming_page.dart';
 import 'package:pawtrack/models/users_models.dart';
 import 'package:pawtrack/pages/profile_page.dart';
@@ -20,11 +21,11 @@ class AdminHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> navItems = [
-      // {
-      //   'text': 'Adopt',
-      //   'icon': 'assets/nav_icons/dog_icon.svg',
-      //   'page': AdminAdoptPage(currentUser: currentUser)
-      // },
+      {
+        'text': 'Adopt',
+        'icon': 'assets/nav_icons/dog_icon.svg',
+        'page': AdminAdoptPage(currentUser: currentUser)
+      },
 
       // {
       //   'text': 'Care',
@@ -52,9 +53,6 @@ class AdminHome extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('AdoptMe'),
-      ),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),

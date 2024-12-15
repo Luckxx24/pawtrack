@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:pawtrack/models/users_models.dart';
 import '../models/grooming_models.dart';
 import '../services/grooming_service.dart';
 import '../utils/styles.dart';
 
-class GroomingPage extends StatefulWidget {
-  const GroomingPage({super.key});
+class AdminGroomingPage extends StatefulWidget {
+  const AdminGroomingPage({super.key, required Users currentUser});
 
   @override
-  State<GroomingPage> createState() => _GroomingPageState();
+  State<AdminGroomingPage> createState() => _AdminGroomingPageState();
 }
 
-class _GroomingPageState extends State<GroomingPage> {
+class _AdminGroomingPageState extends State<AdminGroomingPage> {
   final FirebaseService _firebaseService = FirebaseService();
 
   @override
@@ -99,11 +100,16 @@ class _GroomingPageState extends State<GroomingPage> {
                   decoration: InputDecoration(
                     labelText: 'Nama',
                     border: OutlineInputBorder(
-                      borderRadius: const BorderRadius.all(Radius.circular(12)),
-                      borderSide: BorderSide(
-                        color: Styles.highlightColor,
-                      )
-                    )
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Styles.bgColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Styles.highlightColor),
+                    ),
                     ),
                 ),
                 const Gap(8),
@@ -112,11 +118,16 @@ class _GroomingPageState extends State<GroomingPage> {
                   decoration: InputDecoration(
                       labelText: 'Deskripsi',
                       border: OutlineInputBorder(
-                        borderRadius: const BorderRadius.all(Radius.circular(12)),
-                        borderSide: BorderSide(
-                        color: Styles.highlightColor,
-                        )
-                      )
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Styles.bgColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Styles.highlightColor),
+                    ),
                     ),
                 ),
                 const Gap(8),
@@ -125,11 +136,16 @@ class _GroomingPageState extends State<GroomingPage> {
                   decoration: InputDecoration(
                     labelText: 'Durasi',
                     border: OutlineInputBorder(
-                        borderRadius: const BorderRadius.all(Radius.circular(12)),
-                        borderSide: BorderSide(
-                        color: Styles.highlightColor,
-                        )
-                      )
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Styles.bgColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Styles.highlightColor),
+                    ),
                     ),
                 ),
                 const Gap(8),
@@ -139,12 +155,17 @@ class _GroomingPageState extends State<GroomingPage> {
                   decoration: InputDecoration(
                     labelText: 'Harga',
                     border: OutlineInputBorder(
-                        borderRadius: const BorderRadius.all(Radius.circular(12)),
-                        borderSide: BorderSide(
-                        color: Styles.highlightColor,
-                        )
-                      )
+                      borderRadius: BorderRadius.circular(12),
                     ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Styles.bgColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Styles.highlightColor),
+                    ),
+                  ),
                 ),
                 const Gap(8),
                 TextField(
@@ -152,11 +173,16 @@ class _GroomingPageState extends State<GroomingPage> {
                   decoration: InputDecoration(
                     labelText: 'Jadwal',
                     border: OutlineInputBorder(
-                        borderRadius: const BorderRadius.all(Radius.circular(12)),
-                        borderSide: BorderSide(
-                        color: Styles.highlightColor,
-                        )
-                      )
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Styles.bgColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Styles.highlightColor),
+                    ),
                     ),
                 ),
               ],
@@ -190,6 +216,12 @@ class _GroomingPageState extends State<GroomingPage> {
                 });
               },
               child: Text(service == null ? 'Tambah' : 'Simpan'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Styles.highlightColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+              ),
             ),
           ],
         );

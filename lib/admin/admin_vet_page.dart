@@ -1,33 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:pawtrack/models/users_models.dart';
-import '../models/adopt_models.dart';
-import '../services/adopt_service.dart';
+import 'package:pawtrack/models/vet_models.dart';
 import '../utils/styles.dart';
+import 'package:pawtrack/services/vet_service.dart';
 
-class AdminAdoptPage extends StatefulWidget {
-  const AdminAdoptPage({super.key, required Users currentUser});
+class AdminVetPage extends StatefulWidget {
+  const AdminVetPage({super.key, required Users currentUser});
 
   @override
-  State<AdminAdoptPage> createState() => _AdminAdoptPageState();
+  State<AdminVetPage> createState() => _AdminVetPageState();
 }
 
-class _AdminAdoptPageState extends State<AdminAdoptPage> {
+class _AdminVetPageState extends State<AdminVetPage> {
   final FirebaseService _firebaseService = FirebaseService();
-
-  String? _selectedHewan;
-
-  // Daftar jadwal yang tersedia
-  List<String> _jenisOptions = [
-    'Kucing',
-    'Anjing',
-  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Koleksi Hewan PawTrack'),
+        title: const Text('Vet Services'),
         backgroundColor: Styles.bgColor,
         actions: [
           IconButton(
@@ -36,8 +28,8 @@ class _AdminAdoptPageState extends State<AdminAdoptPage> {
           ),
         ],
       ),
-      body: StreamBuilder<List<Adopt>>(
-        stream: _firebaseService.getAdopt(),
+      body: StreamBuilder<List<Vet>>(
+        stream: _firebaseService.getVet(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
@@ -47,13 +39,13 @@ class _AdminAdoptPageState extends State<AdminAdoptPage> {
             return const Center(child: CircularProgressIndicator());
           }
 
-          final hewans = snapshot.data ?? [];
+          final services = snapshot.data ?? [];
 
           return ListView.builder(
             padding: const EdgeInsets.all(16),
-            itemCount: hewans.length,
+            itemCount: services.length,
             itemBuilder: (context, index) {
-              final hewan = hewans[index];
+              final service = services[index];
 
               return Card(
                 margin: const EdgeInsets.only(bottom: 16),
@@ -62,22 +54,22 @@ class _AdminAdoptPageState extends State<AdminAdoptPage> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: ListTile(
-                  title: Text(hewan.nama, style: const TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text(hewan.deskripsi),
+                  title: Text(service.nama, style: const TextStyle(fontWeight: FontWeight.bold)),
+                  subtitle: Text(service.deskripsi),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
                         icon: const Icon(Icons.edit, color: Colors.blue),
-                        onPressed: () => _showFormDialog(context, hewan: hewan),
+                        onPressed: () => _showFormDialog(context, service: service),
                       ),
                       IconButton(
                         icon: const Icon(Icons.delete, color: Colors.red),
-                        onPressed: () => _deleteService(hewan),
+                        onPressed: () => _deleteService(service),
                       ),
                     ],
                   ),
-                  onTap: () => _showFormDialog(context, hewan: hewan),
+                  onTap: () => _showFormDialog(context, service: service),
                 ),
               );
             },
@@ -87,17 +79,18 @@ class _AdminAdoptPageState extends State<AdminAdoptPage> {
     );
   }
 
-  void _showFormDialog(BuildContext context, {Adopt? hewan}) {
-    final TextEditingController namaController = TextEditingController(text: hewan?.nama ?? '');
-    final TextEditingController deskripsiController = TextEditingController(text: hewan?.deskripsi ?? '');
-    final TextEditingController jenisController = TextEditingController(text: hewan?.jenis ?? '');
-    final TextEditingController usiaController = TextEditingController(text: hewan?.usia.toString() ?? '');
+  void _showFormDialog(BuildContext context, {Vet? service}) {
+    final TextEditingController namaController = TextEditingController(text: service?.nama ?? '');
+    final TextEditingController deskripsiController = TextEditingController(text: service?.deskripsi ?? '');
+    // final TextEditingController durasiController = TextEditingController(text: service?.durasi ?? '');
+    final TextEditingController hargaController = TextEditingController(text: service?.harga.toString() ?? '');
+    final TextEditingController jadwalController = TextEditingController(text: service?.jadwal ?? '');
 
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text(hewan == null ? 'Tambah Koleksi Hewan' : 'Edit identitas Hewan'),
+          title: Text(service == null ? 'Add Vet Service' : 'Edit Vet Service'),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -137,41 +130,25 @@ class _AdminAdoptPageState extends State<AdminAdoptPage> {
                     ),
                     ),
                 ),
-                const Gap(8),
-                DropdownButtonFormField<String>(
-                  decoration: InputDecoration(
-                    labelText: 'Pilih Jenis Hewan',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: Styles.bgColor),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: Styles.highlightColor),
-                        ),
-                  ),
-                  value: _selectedHewan,
-                  items: _jenisOptions.map((jenis) {
-                    return DropdownMenuItem(
-                      value: jenis,
-                      child: Text(jenis),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedHewan = value;
-                    });
-                  },
-                ),
+                // const Gap(8),
+                // TextField(
+                //   controller: durasiController,
+                //   decoration: InputDecoration(
+                //     labelText: 'Durasi',
+                //     border: OutlineInputBorder(
+                //         borderRadius: const BorderRadius.all(Radius.circular(12)),
+                //         borderSide: BorderSide(
+                //         color: Styles.highlightColor,
+                //         )
+                //       )
+                //     ),
+                // ),
                 const Gap(8),
                 TextField(
-                  controller: usiaController,
+                  controller: hargaController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    labelText: 'Usia',
+                    labelText: 'Harga',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -183,9 +160,26 @@ class _AdminAdoptPageState extends State<AdminAdoptPage> {
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(color: Styles.highlightColor),
                     ),
-                  ),
+                    ),
                 ),
                 const Gap(8),
+                TextField(
+                  controller: jadwalController,
+                  decoration: InputDecoration(
+                    labelText: 'Jadwal',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Styles.bgColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Styles.highlightColor),
+                    ),
+                    ),
+                ),
               ],
             ),
           ),
@@ -196,33 +190,27 @@ class _AdminAdoptPageState extends State<AdminAdoptPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                final newHewan = Adopt(
-                  id: hewan?.id ?? DateTime.now().toString(),
+                final newVet = Vet(
+                  id: service?.id ?? DateTime.now().toString(),
                   nama: namaController.text,
                   deskripsi: deskripsiController.text,
-                  jenis: jenisController.text,
-                  usia: double.tryParse(usiaController.text) ?? 0.0,
-                  status: 'tersedia',
+                  // durasi: durasiController.text,
+                  harga: double.tryParse(hargaController.text) ?? 0.0,
+                  jadwal: jadwalController.text,
                 );
 
-                _firebaseService.saveAdopt(newHewan).then((_) {
+                _firebaseService.saveVet(newVet).then((_) {
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(hewan == null
-                          ? 'Layanan Grooming baru berhasil ditambahkan'
+                      content: Text(service == null
+                          ? 'Layanan Dokter Hewan baru berhasil ditambahkan'
                           : 'Informasi layanan berhasil diperbaharui'),
                     ),
                   );
                 });
               },
-              child: Text(hewan == null ? 'Tambah' : 'Simpan'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Styles.highlightColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-              ),
+              child: Text(service == null ? 'Tambah' : 'Simpan'),
             ),
           ],
         );
@@ -230,13 +218,13 @@ class _AdminAdoptPageState extends State<AdminAdoptPage> {
     );
   }
 
-  void _deleteService(Adopt hewan) {
+  void _deleteService(Vet service) {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Hapus Hewan'),
-          content: Text('Apakah anda yakin ingin menghapus ${hewan.nama}?'),
+          title: const Text('Hapus Layanan'),
+          content: Text('Apakah anda yakin ingin menghapus ${service.nama}?'),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -244,10 +232,10 @@ class _AdminAdoptPageState extends State<AdminAdoptPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                _firebaseService.deleteAdopt(hewan.nama).then((_) {
+                _firebaseService.deleteVet(service.nama).then((_) {
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Hewan Berhasil Dihapus')),
+                    const SnackBar(content: Text('Layanan Berhasil Dihapus')),
                   );
                 });
               },
