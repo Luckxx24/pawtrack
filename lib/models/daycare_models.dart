@@ -1,12 +1,10 @@
-import 'package:intl/intl.dart';
-
 class Daycare {
   final String nama;
   final String id;
   final String durasi;
   final String deskripsi;
   final double harga;
-  final DateTime jadwal;
+  final String jadwal;
   final String status;
   final String jenis;
   final String user;
@@ -26,7 +24,7 @@ class Daycare {
   // Convert Firebase document to model
   factory Daycare.fromMap(Map<String, dynamic> map) {
     return Daycare(
-      nama: map['nama'] ?? '',
+      nama: map['nama_hewan'] ?? '',
       id: map['id'] ?? '',
       jadwal: map['jadwal'] ?? '',
       deskripsi: map['deskripsi'] ?? '',
@@ -41,7 +39,7 @@ class Daycare {
   // Convert model to Firebase document
   Map<String, dynamic> toMap() {
     return {
-      'nama_servis': nama,
+      'nama_hewan': nama,
       'id': id,
       'jadwal': jadwal,
       'deskripsi': deskripsi,

@@ -7,13 +7,17 @@ import 'package:pawtrack/services/adopt_service.dart';
 import 'package:pawtrack/utils/layouts.dart';
 import 'package:pawtrack/utils/styles.dart';
 import 'package:pawtrack/widgets/back_button.dart';
+import 'package:pawtrack/models/users_models.dart';
 
 
-class DogAdoptPage extends StatefulWidget {
-  const DogAdoptPage({super.key});
+
+class DogAdoptPage extends StatefulWidget{
+  final Users currentUser;
+
+  const DogAdoptPage({Key? key, required this.currentUser}) : super(key: key);
 
   @override
-  State<DogAdoptPage> createState() => _DogAdoptPageState();
+  State<DogAdoptPage> createState() =>_DogAdoptPageState ();
 }
 
 class _DogAdoptPageState extends State<DogAdoptPage> {
@@ -108,7 +112,7 @@ class _DogAdoptPageState extends State<DogAdoptPage> {
                 }
 
                 if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                  final hewans = snapshot.data!.where((hewan) => hewan.jenis == 'dog' && hewan.status == 'tersedia').toList();
+                  final hewans = snapshot.data!.where((hewan) => hewan.jenis == 'Anjing' && hewan.status == 'tersedia').toList();
                   return ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     shrinkWrap: true,
@@ -121,7 +125,10 @@ class _DogAdoptPageState extends State<DogAdoptPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AdoptDetailPage(adopt: hewan),
+                              builder: (context) => AdoptDetailPage(
+                                  adopt: hewan,
+                                  currentUser: widget.currentUser
+                              ),
                             ),
                           );
                         },

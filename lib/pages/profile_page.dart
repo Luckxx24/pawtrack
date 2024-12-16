@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pawtrack/utils/styles.dart';
 import 'package:pawtrack/models/users_models.dart';
 import 'package:gap/gap.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfilePage extends StatelessWidget {
   final Users currentUser;
@@ -11,11 +12,22 @@ class ProfilePage extends StatelessWidget {
     required this.currentUser,
   }) : super(key: key);
 
+  Future<void> _logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context).pushReplacementNamed('/login'); // Adjust route as needed
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Profile'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () => _logout(context),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),

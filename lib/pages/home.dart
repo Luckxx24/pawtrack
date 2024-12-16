@@ -5,6 +5,7 @@ import 'package:pawtrack/models/users_models.dart';
 import 'package:pawtrack/pages/adopt_page.dart';
 import 'package:pawtrack/pages/daycare_page.dart';
 import 'package:pawtrack/pages/grooming_page.dart';
+import 'package:pawtrack/pages/history_page.dart';
 import 'package:pawtrack/pages/profile_page.dart';
 import 'package:pawtrack/pages/vet_page.dart';
 import 'package:pawtrack/utils/layouts.dart';
@@ -26,7 +27,7 @@ class Home extends StatelessWidget {
       {
         'text': 'Adopt',
         'icon': 'assets/nav_icons/dog_icon.svg',
-        'page': const AdoptPage()
+        'page':  AdoptPage(currentUser: currentUser)
       },
 
       {
@@ -38,13 +39,13 @@ class Home extends StatelessWidget {
       {
         'text': 'Grooming',
         'icon': 'assets/nav_icons/cut_icon.svg',
-        'page': const GroomingPage(),
+        'page': GroomingPage(currentUser: currentUser),
       },
 
       {
-        'text': 'Vet',
+        'text': 'History',
         'icon': 'assets/nav_icons/vet_icon.svg',
-        'page': const VetPage(),
+        'page': UserHistoryPage(currentUser: currentUser),
       },
 
       {
@@ -129,18 +130,20 @@ class Home extends StatelessWidget {
 
   Widget _buildPetOptions() {
     return Row(
-      children: const [
+      children: [
         PetCard(
           petPath: 'assets/svg/cat1.svg',
           petName: 'Adopsi kucing',
           hewan: 'kucing',
+          currentUser: currentUser,
         ),
-        Gap(28),
+        const Gap(28),
         PetCard(
           petPath: 'assets/svg/dog1.svg',
           petName: 'Adopsi hewan',
           height: 68,
           hewan: 'anjing',
+          currentUser: currentUser,
         ),
       ],
     );

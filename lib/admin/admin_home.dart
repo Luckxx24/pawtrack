@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:pawtrack/admin/admin_adopt.dart';
+import 'package:pawtrack/admin/admin_grooming_page.dart';
 import 'package:pawtrack/models/users_models.dart';
-import 'package:pawtrack/pages/grooming_page.dart';
 import 'package:pawtrack/pages/profile_page.dart';
-import 'package:pawtrack/pages/vet_page.dart';
 import 'package:pawtrack/utils/layouts.dart';
 import 'package:pawtrack/utils/styles.dart';
 import 'package:pawtrack/widgets/animated_title.dart';
 import 'package:pawtrack/widgets/pet_card.dart';
+import 'package:pawtrack/admin/admin_daycare.dart';
+import 'package:pawtrack/pages/AdminProfile.dart';
 
 class AdminHome extends StatelessWidget {
   final Users currentUser;
@@ -21,13 +23,34 @@ class AdminHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> navItems = [
-      {'text': 'Adopt', 'icon': 'assets/nav_icons/dog_icon.svg'},
-      {'text': 'Grooming', 'icon': 'assets/nav_icons/cut_icon.svg', 'page': const GroomingPage()},
-      {'text': 'Vet', 'icon': 'assets/nav_icons/vet_icon.svg', 'page': const VetPage()},
+      {
+        'text': 'Adopt',
+        'icon': 'assets/nav_icons/dog_icon.svg',
+        'page': AdminAdoptPage(currentUser: currentUser)
+      },
+
+      {
+        'text': 'Care',
+        'icon': 'assets/nav_icons/cat-kitty.svg',
+        'page': AdminCarePage(currentUser: currentUser)
+      },
+
+      {
+        'text': 'Grooming',
+        'icon': 'assets/nav_icons/cut_icon.svg',
+        'page': AdminGroomingPage(currentUser: currentUser),
+      },
+
+      // {
+      //   'text': 'Vet',
+      //   'icon': 'assets/nav_icons/vet_icon.svg',
+      //   'page': AdminVetPage(),
+      // },
+
       {
         'text': 'Profile',
         'icon': 'assets/nav_icons/account-svgrepo-com.svg',
-        'page': ProfilePage(currentUser: currentUser)
+        'page': AdminProfilePage(currentUser: currentUser)
       },
     ];
 
@@ -105,18 +128,20 @@ class AdminHome extends StatelessWidget {
 
   Widget _buildPetOptions() {
     return Row(
-      children: const [
+      children: [
         PetCard(
           petPath: 'assets/svg/cat1.svg',
           petName: 'Adopsi kucing',
           hewan: 'kucing',
+          currentUser: currentUser,
         ),
-        Gap(28),
+        const Gap(28),
         PetCard(
           petPath: 'assets/svg/dog1.svg',
           petName: 'Adopsi hewan',
           height: 68,
           hewan: 'anjing',
+          currentUser: currentUser,
         ),
       ],
     );
