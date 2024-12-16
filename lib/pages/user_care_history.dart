@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:pawtrack/models/grooming_models.dart';
+import 'package:pawtrack/models/daycare_models.dart';
 import 'package:pawtrack/models/users_models.dart';
-import 'package:pawtrack/services/pesan_grooming_service.dart';
+import 'package:pawtrack/services/daycare_service.dart';
 
-class AdminGroomBookingPage extends StatefulWidget {
-  const AdminGroomBookingPage({Key? key, required Users currentUser}) : super(key: key);
+class UserCareHistory extends StatefulWidget {
+  const UserCareHistory({Key? key, required Users currentUser}) : super(key: key);
 
   @override
-  _AdminGroomBookingPageState createState() => _AdminGroomBookingPageState();
+  _UserCareHistoryState createState() => _UserCareHistoryState();
 }
 
-class _AdminGroomBookingPageState extends State<AdminGroomBookingPage> {
+class _UserCareHistoryState extends State<UserCareHistory> {
   final FirebaseService _groomingServices = FirebaseService();
   
   // Daftar status untuk filter
@@ -28,7 +28,7 @@ class _AdminGroomBookingPageState extends State<AdminGroomBookingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Permintaan Booking Grooming'),
+        title: const Text('Permintaan Penitipan Hewan'),
         centerTitle: true,
       ),
       body: Column(
@@ -60,8 +60,8 @@ class _AdminGroomBookingPageState extends State<AdminGroomBookingPage> {
 
           // Stream builder untuk menampilkan daftar permintaan
           Expanded(
-            child: StreamBuilder<List<Grooming>>(
-              stream: _groomingServices.getGrooming(),
+            child: StreamBuilder<List<Daycare>>(
+              stream: _groomingServices.getDaycare(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -69,7 +69,7 @@ class _AdminGroomBookingPageState extends State<AdminGroomBookingPage> {
 
                 if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return const Center(
-                    child: Text('Tidak ada permintaan grooming'),
+                    child: Text('Tidak ada permintaan penitipan hewan'),
                   );
                 }
 
@@ -82,7 +82,7 @@ class _AdminGroomBookingPageState extends State<AdminGroomBookingPage> {
 
                 if (filteredRequests.isEmpty) {
                   return const Center(
-                    child: Text('Tidak ada permintaan dengan status ini'),
+                    child: Text('Tidak ada permintaan penitipan dengan status ini'),
                   );
                 }
 
@@ -90,7 +90,7 @@ class _AdminGroomBookingPageState extends State<AdminGroomBookingPage> {
                   itemCount: filteredRequests.length,
                   itemBuilder: (context, index) {
                     final request = filteredRequests[index];
-                    return _buildGroomingRequestCard(request);
+                    return _buildAdoptRequestCard(request);
                   },
                 );
               },
@@ -101,7 +101,7 @@ class _AdminGroomBookingPageState extends State<AdminGroomBookingPage> {
     );
   }
 
-  Widget _buildGroomingRequestCard(Grooming request) {
+  Widget _buildAdoptRequestCard(Daycare request) {
     // Tentukan warna berdasarkan status
     Color statusColor;
     switch (request.status) {
@@ -151,10 +151,11 @@ class _AdminGroomBookingPageState extends State<AdminGroomBookingPage> {
             ),
             const SizedBox(height: 8),
             Text('Deskripsi: ${request.deskripsi}'),
-            Text('Durasi: ${request.durasi}'),
+            Text('Hewan: ${request.jenis}'),
             Text(
               'Jadwal: ${request.jadwal}',
             ),
+            Text('Durasi: ${request.durasi}'),
             Text('Biaya: Rp ${request.harga}'),
             Text('Pemohon: ${request.user}'),
             Text('Status: ${request.status}'),
@@ -168,14 +169,10 @@ class _AdminGroomBookingPageState extends State<AdminGroomBookingPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                      onPressed: () => _updateRequestStatus(request, 'ditolak'),
-                      icon: const Icon(Icons.close)),
-                    
-                    IconButton(
-                      onPressed: () => _updateRequestStatus(request, 'diterima'),
-                      icon: const Icon(Icons.check)
+                      onPressed: () => _batalRequestDaycare(request),
+                      icon: const Icon(Icons.delete),
+                      color: Colors.red,
                       ),
-                    
                   ],
                 ),
               ),
@@ -185,19 +182,19 @@ class _AdminGroomBookingPageState extends State<AdminGroomBookingPage> {
     );
   }
 
-  void _updateRequestStatus(Grooming request, String status) {
+  void _batalRequestDaycare(Daycare request) {
     // Update status di Firebase
-    _groomingServices.updatePesanGrooming(request.nama, {'status': status}).then((_) {
+    _groomingServices.deleteDaycare(request.nama).then((_) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Permintaan ${status == 'diterima' ? 'diterima' : 'ditolak'}'),
-          backgroundColor: status == 'diterima' ? Colors.green : Colors.red,
+          content: Text('Permintaan penitipan dibatalkan'),
+          backgroundColor: Colors.red,
         ),
       );
     }).catchError((error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Gagal memperbarui status: $error'),
+          content: Text('Gagal membatalkan permintaan penitipan: $error'),
           backgroundColor: Colors.red,
         ),
       );

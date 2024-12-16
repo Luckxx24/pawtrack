@@ -5,6 +5,7 @@ import 'package:pawtrack/models/users_models.dart';
 import 'package:pawtrack/pages/adopt_page.dart';
 import 'package:pawtrack/pages/daycare_page.dart';
 import 'package:pawtrack/pages/grooming_page.dart';
+import 'package:pawtrack/pages/history_page.dart';
 import 'package:pawtrack/pages/profile_page.dart';
 import 'package:pawtrack/pages/vet_page.dart';
 import 'package:pawtrack/utils/layouts.dart';
@@ -42,9 +43,9 @@ class Home extends StatelessWidget {
       },
 
       {
-        'text': 'Vet',
+        'text': 'History',
         'icon': 'assets/nav_icons/vet_icon.svg',
-        'page': const VetPage(),
+        'page': UserHistoryPage(currentUser: currentUser),
       },
 
       {

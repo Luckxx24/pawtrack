@@ -3,14 +3,14 @@ import 'package:pawtrack/models/grooming_models.dart';
 import 'package:pawtrack/models/users_models.dart';
 import 'package:pawtrack/services/pesan_grooming_service.dart';
 
-class AdminGroomBookingPage extends StatefulWidget {
-  const AdminGroomBookingPage({Key? key, required Users currentUser}) : super(key: key);
+class UserGroomingHistory extends StatefulWidget {
+  const UserGroomingHistory({Key? key, required Users currentUser}) : super(key: key);
 
   @override
-  _AdminGroomBookingPageState createState() => _AdminGroomBookingPageState();
+  _UserGroomingHistoryState createState() => _UserGroomingHistoryState();
 }
 
-class _AdminGroomBookingPageState extends State<AdminGroomBookingPage> {
+class _UserGroomingHistoryState extends State<UserGroomingHistory> {
   final FirebaseService _groomingServices = FirebaseService();
   
   // Daftar status untuk filter
@@ -168,14 +168,10 @@ class _AdminGroomBookingPageState extends State<AdminGroomBookingPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                      onPressed: () => _updateRequestStatus(request, 'ditolak'),
-                      icon: const Icon(Icons.close)),
-                    
-                    IconButton(
-                      onPressed: () => _updateRequestStatus(request, 'diterima'),
-                      icon: const Icon(Icons.check)
+                      onPressed: () => _batalRequestGrooming(request),
+                      icon: const Icon(Icons.delete),
+                      color: Colors.red,
                       ),
-                    
                   ],
                 ),
               ),
@@ -185,19 +181,19 @@ class _AdminGroomBookingPageState extends State<AdminGroomBookingPage> {
     );
   }
 
-  void _updateRequestStatus(Grooming request, String status) {
+  void _batalRequestGrooming(Grooming request) {
     // Update status di Firebase
-    _groomingServices.updatePesanGrooming(request.nama, {'status': status}).then((_) {
+    _groomingServices.deletePesanGrooming(request.nama).then((_) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Permintaan ${status == 'diterima' ? 'diterima' : 'ditolak'}'),
-          backgroundColor: status == 'diterima' ? Colors.green : Colors.red,
+          content: Text('Permintaan dibatalkan'),
+          backgroundColor: Colors.red,
         ),
       );
     }).catchError((error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Gagal memperbarui status: $error'),
+          content: Text('Gagal membatalkan permintaan: $error'),
           backgroundColor: Colors.red,
         ),
       );
