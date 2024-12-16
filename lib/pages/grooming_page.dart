@@ -8,9 +8,12 @@ import '../utils/layouts.dart';
 import '../utils/styles.dart';
 import '../widgets/back_button.dart';
 import '../pages/grooming_detail.dart';
+import 'package:pawtrack/models/users_models.dart';
 
 class GroomingPage extends StatefulWidget {
-  const GroomingPage({super.key});
+  final Users currentUser;
+
+  const GroomingPage({Key? key, required this.currentUser}) : super(key: key);
 
   @override
   State<GroomingPage> createState() => _GroomingPageState();
@@ -120,7 +123,10 @@ class _GroomingPageState extends State<GroomingPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => GroomingDetailPage(grooming: service),
+                              builder: (context) => GroomingDetailPage(
+                                grooming: service,
+                                currentUser: widget.currentUser,
+                              ),
                             ),
                           );
                         },

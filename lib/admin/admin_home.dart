@@ -22,7 +22,7 @@ class AdminHome extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> navItems = [
       {'text': 'Adopt', 'icon': 'assets/nav_icons/dog_icon.svg'},
-      {'text': 'Grooming', 'icon': 'assets/nav_icons/cut_icon.svg', 'page': const GroomingPage()},
+      {'text': 'Grooming', 'icon': 'assets/nav_icons/cut_icon.svg', 'page': GroomingPage(currentUser: currentUser)},
       {'text': 'Vet', 'icon': 'assets/nav_icons/vet_icon.svg', 'page': const VetPage()},
       {
         'text': 'Profile',
