@@ -163,6 +163,7 @@ class _AdminAdoptPageState extends State<AdminAdoptPage> {
                   onChanged: (value) {
                     setState(() {
                       _selectedHewan = value;
+                      jenisController.text = _selectedHewan ?? '';
                     });
                   },
                 ),
@@ -196,11 +197,12 @@ class _AdminAdoptPageState extends State<AdminAdoptPage> {
             ),
             ElevatedButton(
               onPressed: () {
+                String jenisHewan = '${jenisController.text}';
                 final newHewan = Adopt(
                   id: hewan?.id ?? DateTime.now().toString(),
                   nama: namaController.text,
                   deskripsi: deskripsiController.text,
-                  jenis: jenisController.text,
+                  jenis: jenisHewan,
                   usia: double.tryParse(usiaController.text) ?? 0.0,
                   status: 'tersedia',
                 );

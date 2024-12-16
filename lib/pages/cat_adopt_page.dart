@@ -108,7 +108,7 @@ class _CatAdoptPageState extends State<CatAdoptPage> {
                 }
 
                 if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                  final hewans = snapshot.data!.where((hewan) => hewan.jenis == 'cat' && hewan.status == 'tersedia').toList();
+                  final hewans = snapshot.data!.where((hewan) => hewan.jenis == 'Kucing' && hewan.status == 'tersedia').toList();
                   return ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     shrinkWrap: true,

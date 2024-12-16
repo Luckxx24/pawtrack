@@ -108,7 +108,7 @@ class _DogAdoptPageState extends State<DogAdoptPage> {
                 }
 
                 if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                  final hewans = snapshot.data!.where((hewan) => hewan.jenis == 'dog' && hewan.status == 'tersedia').toList();
+                  final hewans = snapshot.data!.where((hewan) => hewan.jenis == 'Anjing' && hewan.status == 'tersedia').toList();
                   return ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     shrinkWrap: true,
