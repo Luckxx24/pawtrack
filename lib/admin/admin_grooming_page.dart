@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:pawtrack/admin/admin_pesan_grooming.dart';
 import 'package:pawtrack/models/users_models.dart';
 import '../models/grooming_models.dart';
 import '../services/grooming_service.dart';
 import '../utils/styles.dart';
 
 class AdminGroomingPage extends StatefulWidget {
-  const AdminGroomingPage({super.key, required Users currentUser});
+  const AdminGroomingPage({super.key, required  this.currentUser});
+
+  final Users currentUser;
 
   @override
   State<AdminGroomingPage> createState() => _AdminGroomingPageState();
@@ -28,7 +31,15 @@ class _AdminGroomingPageState extends State<AdminGroomingPage> {
           ),
           IconButton(
             icon: const Icon(Icons.history),
-            onPressed: () => _showFormDialog(context),
+            onPressed: () {
+              Navigator.push( 
+                context,
+                MaterialPageRoute( 
+                  builder: (context) => AdminGroomBookingPage(currentUser: widget.currentUser), 
+                  ), 
+                );
+            },
+            // onPressed: () => AdminGroomBookingPage(widget.currentUser),
           ),
         ],
       ),
