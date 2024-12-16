@@ -7,13 +7,17 @@ import 'package:pawtrack/services/adopt_service.dart';
 import 'package:pawtrack/utils/layouts.dart';
 import 'package:pawtrack/utils/styles.dart';
 import 'package:pawtrack/widgets/back_button.dart';
+import 'package:pawtrack/models/users_models.dart';
 
 
-class CatAdoptPage extends StatefulWidget {
-  const CatAdoptPage({super.key});
+
+class CatAdoptPage extends StatefulWidget{
+  final Users currentUser;
+
+  const CatAdoptPage({Key? key, required this.currentUser}) : super(key: key);
 
   @override
-  State<CatAdoptPage> createState() => _CatAdoptPageState();
+  State<CatAdoptPage> createState() => _CatAdoptPageState ();
 }
 
 class _CatAdoptPageState extends State<CatAdoptPage> {
@@ -121,7 +125,9 @@ class _CatAdoptPageState extends State<CatAdoptPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AdoptDetailPage(adopt: hewan),
+                              builder: (context) => AdoptDetailPage(
+                                  adopt: hewan,
+                                  currentUser: widget.currentUser),
                             ),
                           );
                         },

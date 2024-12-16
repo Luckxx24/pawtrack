@@ -127,18 +127,20 @@ class AdminHome extends StatelessWidget {
 
   Widget _buildPetOptions() {
     return Row(
-      children: const [
+      children: [
         PetCard(
           petPath: 'assets/svg/cat1.svg',
           petName: 'Adopsi kucing',
           hewan: 'kucing',
+          currentUser: currentUser,
         ),
-        Gap(28),
+        const Gap(28),
         PetCard(
           petPath: 'assets/svg/dog1.svg',
           petName: 'Adopsi hewan',
           height: 68,
           hewan: 'anjing',
+          currentUser: currentUser,
         ),
       ],
     );
