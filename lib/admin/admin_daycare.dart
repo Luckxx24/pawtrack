@@ -165,16 +165,23 @@ class _AdminCarePageState extends State<AdminCarePage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ElevatedButton(
+                    IconButton(
                       onPressed: () => _updateRequestStatus(request, 'ditolak'),
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                      child: const Text('Tolak'),
-                    ),
-                    ElevatedButton(
+                      icon: const Icon(Icons.close)),
+                    // ElevatedButton(
+                    //   onPressed: () => _updateRequestStatus(request, 'ditolak'),
+                    //   style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                    //   child: const Text('Tolak'),
+                    // ),
+                    IconButton(
                       onPressed: () => _updateRequestStatus(request, 'diterima'),
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                      child: const Text('Terima'),
-                    ),
+                      icon: const Icon(Icons.check)
+                      ),
+                    // ElevatedButton(
+                    //   onPressed: () => _updateRequestStatus(request, 'diterima'),
+                    //   style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                    //   child: const Text('Terima'),
+                    // ),
                   ],
                 ),
               ),

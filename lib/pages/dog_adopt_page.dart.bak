@@ -7,21 +7,16 @@ import 'package:pawtrack/services/adopt_service.dart';
 import 'package:pawtrack/utils/layouts.dart';
 import 'package:pawtrack/utils/styles.dart';
 import 'package:pawtrack/widgets/back_button.dart';
-import 'package:pawtrack/models/users_models.dart';
 
 
-class AdoptPage extends StatefulWidget{
-  final Users currentUser;
-
-  const AdoptPage({Key? key, required this.currentUser}) : super(key: key);
+class DogAdoptPage extends StatefulWidget {
+  const DogAdoptPage({super.key});
 
   @override
-  State<AdoptPage> createState() =>_AdoptPageState ();
+  State<DogAdoptPage> createState() => _DogAdoptPageState();
 }
 
-
-
-class _AdoptPageState extends State<AdoptPage> {
+class _DogAdoptPageState extends State<DogAdoptPage> {
 
   final FirebaseService _firebaseService = FirebaseService();
 
@@ -59,7 +54,7 @@ class _AdoptPageState extends State<AdoptPage> {
                                 curve: Curves.bounceInOut,
                                 duration: const Duration(seconds: 1),
                                 child: SvgPicture.asset(
-                                  'assets/svg/person2.svg',
+                                  'assets/svg/dog1.svg',
                                   height: value * 200,
                                 ),
                               ),
@@ -88,7 +83,7 @@ class _AdoptPageState extends State<AdoptPage> {
               duration: const Duration(milliseconds: 500),
               builder: (context, value, _) {
                 return Text(
-                  'Adopsi Hewan',
+                  'Adopsi Anjing',
                   style: TextStyle(
                     color: Styles.blackColor,
                     fontSize: value * 25,
@@ -113,7 +108,7 @@ class _AdoptPageState extends State<AdoptPage> {
                 }
 
                 if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                  final hewans = snapshot.data!.where((hewan) => hewan.status == 'tersedia').toList();;
+                  final hewans = snapshot.data!.where((hewan) => hewan.jenis == 'Anjing' && hewan.status == 'tersedia').toList();
                   return ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     shrinkWrap: true,
@@ -126,8 +121,7 @@ class _AdoptPageState extends State<AdoptPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AdoptDetailPage(adopt: hewan,
-                                currentUser: widget.currentUser),
+                              builder: (context) => AdoptDetailPage(adopt: hewan),
                             ),
                           );
                         },
