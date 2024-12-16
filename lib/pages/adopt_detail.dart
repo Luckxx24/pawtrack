@@ -5,14 +5,16 @@ import 'package:gap/gap.dart';
 import 'package:pawtrack/models/adopt_models.dart';
 import 'package:pawtrack/services/adopt_service.dart';
 import 'package:pawtrack/utils/styles.dart';
+import 'package:pawtrack/models/users_models.dart';
 
 class AdoptDetailPage extends StatelessWidget {
 
   final Adopt adopt;
+  final Users currentUser;
 
   final FirebaseService _firebaseService = FirebaseService();
 
-  AdoptDetailPage({super.key, required this.adopt});
+  AdoptDetailPage({super.key, required this.adopt,required this.currentUser});
 
   @override
   Widget build(BuildContext context) {
