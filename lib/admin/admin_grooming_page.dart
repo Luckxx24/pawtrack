@@ -26,6 +26,10 @@ class _AdminGroomingPageState extends State<AdminGroomingPage> {
             icon: const Icon(Icons.add),
             onPressed: () => _showFormDialog(context),
           ),
+          IconButton(
+            icon: const Icon(Icons.history),
+            onPressed: () => _showFormDialog(context),
+          ),
         ],
       ),
       body: StreamBuilder<List<Grooming>>(
@@ -202,6 +206,8 @@ class _AdminGroomingPageState extends State<AdminGroomingPage> {
                   durasi: durasiController.text,
                   harga: double.tryParse(hargaController.text) ?? 0.0,
                   jadwal: jadwalController.text,
+                  user: "admin",
+                  status: 'menunggu',
                 );
 
                 _firebaseService.saveGrooming(newGrooming).then((_) {
