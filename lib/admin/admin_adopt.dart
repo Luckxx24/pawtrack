@@ -205,6 +205,7 @@ class _AdminAdoptPageState extends State<AdminAdoptPage> {
                   jenis: jenisHewan,
                   usia: double.tryParse(usiaController.text) ?? 0.0,
                   status: 'tersedia',
+                  user: 'admin',
                 );
 
                 _firebaseService.saveAdopt(newHewan).then((_) {

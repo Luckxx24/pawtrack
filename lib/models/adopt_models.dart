@@ -6,6 +6,7 @@ class Adopt {
   final String nama;
   final String status;
   final double usia;
+  final String user;
 
   Adopt({
     required this.deskripsi,
@@ -15,6 +16,7 @@ class Adopt {
     required this.nama,
     required this.status,
     required this.usia,
+    required this.user,
   });
 
   // Convert Firebase document to model
@@ -27,6 +29,7 @@ class Adopt {
         nama: map['nama'] ?? '',
         status: map['status'] ?? '',
         usia: map['usia']?.toDouble() ?? 0.0,
+        user: map['user'] ?? '',
     );
   }
 
@@ -40,7 +43,7 @@ class Adopt {
       'nama': nama,
       'status': status,
       'usia': usia,
-
+      'user': user,
     };
   }
 }
