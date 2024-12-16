@@ -38,7 +38,7 @@ class Home extends StatelessWidget {
       {
         'text': 'Grooming',
         'icon': 'assets/nav_icons/cut_icon.svg',
-        'page': const GroomingPage(),
+        'page': GroomingPage(currentUser: currentUser),
       },
 
       {

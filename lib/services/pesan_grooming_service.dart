@@ -3,7 +3,7 @@ import '../models/grooming_models.dart';
 
 class FirebaseService {
   final CollectionReference _collection =
-  FirebaseFirestore.instance.collection('pesangrooming');
+  FirebaseFirestore.instance.collection('pesan_grooming');
 
   // Create or update data
   Future<void> pesanGrooming(Grooming grooming) async {

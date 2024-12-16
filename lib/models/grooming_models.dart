@@ -5,6 +5,8 @@ class Grooming {
   final double harga;
   final String jadwal;
   final String id;
+  final String user;
+  final String status;
 
   Grooming({
     required this.deskripsi,
@@ -13,8 +15,8 @@ class Grooming {
     required this.harga,
     required this.jadwal,
     required this.id,
-
-
+    required this.user,
+    required this.status
   });
 
   // Convert Firebase document to model
@@ -26,8 +28,8 @@ class Grooming {
       harga: map['harga']?.toDouble() ?? 0.0,
       jadwal: map['jadwal_waktu'] ?? '',
       id: map['studentID'] ?? '',
-
-
+      user: map['user'] ?? '',
+      status: map['status'] ?? '',
     );
   }
 
@@ -40,8 +42,8 @@ class Grooming {
       'harga': harga,
       'jadwal_waktu': jadwal,
       'studentID': id,
-
-
+      'user': user,
+      'status': status
     };
   }
 }

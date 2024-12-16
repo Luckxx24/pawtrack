@@ -9,6 +9,7 @@ import 'package:pawtrack/utils/layouts.dart';
 import 'package:pawtrack/utils/styles.dart';
 import 'package:pawtrack/widgets/animated_title.dart';
 import 'package:pawtrack/widgets/pet_card.dart';
+import 'package:pawtrack/admin/admin_daycare.dart';
 
 class AdminHome extends StatelessWidget {
   final Users currentUser;
@@ -27,11 +28,11 @@ class AdminHome extends StatelessWidget {
         'page': AdminAdoptPage(currentUser: currentUser)
       },
 
-      // {
-      //   'text': 'Care',
-      //   'icon': 'assets/nav_icons/cat-kitty.svg',
-      //   'page': AdminDaycarePage(currentUser: currentUser)
-      // },
+      {
+        'text': 'Care',
+        'icon': 'assets/nav_icons/cat-kitty.svg',
+        'page': AdminCarePage(currentUser: currentUser)
+      },
 
       {
         'text': 'Grooming',

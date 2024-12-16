@@ -1,12 +1,10 @@
-import 'package:intl/intl.dart';
-
 class Daycare {
   final String nama;
   final String id;
   final String durasi;
   final String deskripsi;
   final double harga;
-  final DateTime jadwal;
+  final String jadwal;
   final String status;
   final String jenis;
   final String user;

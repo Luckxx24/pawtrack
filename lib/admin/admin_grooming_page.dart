@@ -202,6 +202,8 @@ class _AdminGroomingPageState extends State<AdminGroomingPage> {
                   durasi: durasiController.text,
                   harga: double.tryParse(hargaController.text) ?? 0.0,
                   jadwal: jadwalController.text,
+                  user: "admin",
+                  status: 'menunggu',
                 );
 
                 _firebaseService.saveGrooming(newGrooming).then((_) {

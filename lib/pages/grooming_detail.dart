@@ -3,13 +3,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:pawtrack/models/users_models.dart';
+import 'package:pawtrack/pages/pesan_grooming_page.dart';
 import '../models/grooming_models.dart';
 import '../utils/styles.dart';
 
 class GroomingDetailPage extends StatelessWidget {
   final Grooming grooming;
 
-  const GroomingDetailPage({super.key, required this.grooming});
+  const GroomingDetailPage({super.key, required this.grooming, required this.currentUser});
+
+  final Users currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +94,12 @@ class GroomingDetailPage extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   // TODO: Add booking functionality
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => GroomingBookingPage(grooming: grooming, currentUser: currentUser),
+                    ),
+                  );
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Service booked successfully!'),

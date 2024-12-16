@@ -19,14 +19,24 @@ class DaycarePage extends StatefulWidget {
 }
 
 class _DaycarePageState extends State<DaycarePage> {
+
+// final _formKey = GlobalKey<FormState>();
+
   // Controller untuk input teks
   final TextEditingController _namaHewanController = TextEditingController();
   final TextEditingController _deskripsiController = TextEditingController();
+  late TextEditingController _dateController;
 
   // Variabel untuk menyimpan jadwal terpilih
   DateTime? _selectedDate;
   String? _selectedJadwal;
   String? _selectedHewan;
+
+  @override
+  void initState() {
+    super.initState();
+    _dateController = TextEditingController();
+  }
 
   
 
@@ -65,6 +75,7 @@ class _DaycarePageState extends State<DaycarePage> {
     if (picked != null && picked != _selectedDate) {
       setState(() {
         _selectedDate = picked;
+        _dateController.text = DateFormat('dd-MM-yyyy').format(picked);
       });
     }
   }
@@ -96,6 +107,8 @@ class _DaycarePageState extends State<DaycarePage> {
       _showSnackBar("Pilih jenis hewan");
       return;
     }
+    
+    String jadwalWaktu = '${_dateController.text}';
 
     // Buat objek Daycare
     final daycare = Daycare(
@@ -104,7 +117,7 @@ class _DaycarePageState extends State<DaycarePage> {
       durasi: _selectedJadwal!, 
       deskripsi: _deskripsiController.text, 
       harga: _hargaJadwal[_selectedJadwal]!,
-      jadwal: _selectedDate!,
+      jadwal: jadwalWaktu,
       status: 'menunggu',
       jenis: _selectedHewan!,
       user: widget.currentUser.nama,

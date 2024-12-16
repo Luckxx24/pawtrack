@@ -3,7 +3,7 @@ import '../models/daycare_models.dart';
 
 class FirebaseService {
   final CollectionReference _collection =
-  FirebaseFirestore.instance.collection('daycare_services');
+  FirebaseFirestore.instance.collection('daycare');
 
   // Create or update data
   Future<void> saveDaycare(Daycare daycare) async {
