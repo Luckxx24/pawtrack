@@ -26,6 +26,10 @@ class _AdminGroomingPageState extends State<AdminGroomingPage> {
             icon: const Icon(Icons.add),
             onPressed: () => _showFormDialog(context),
           ),
+          IconButton(
+            icon: const Icon(Icons.history),
+            onPressed: () => _showFormDialog(context),
+          ),
         ],
       ),
       body: StreamBuilder<List<Grooming>>(
