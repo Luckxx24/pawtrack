@@ -2,21 +2,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:pawtrack/models/users_models.dart';
 import '../services/grooming_service.dart';
 import '../models/grooming_models.dart';
 import '../utils/layouts.dart';
 import '../utils/styles.dart';
 import '../widgets/back_button.dart';
 import '../pages/grooming_detail.dart';
-import 'package:pawtrack/models/users_models.dart';
 
 class GroomingPage extends StatefulWidget {
-  final Users currentUser;
-
-  const GroomingPage({Key? key, required this.currentUser}) : super(key: key);
+  const GroomingPage({super.key, required this.currentUser});
 
   @override
   State<GroomingPage> createState() => _GroomingPageState();
+  final Users currentUser;
 }
 
 class _GroomingPageState extends State<GroomingPage> {
@@ -123,10 +122,7 @@ class _GroomingPageState extends State<GroomingPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => GroomingDetailPage(
-                                grooming: service,
-                                currentUser: widget.currentUser,
-                              ),
+                              builder: (context) => GroomingDetailPage(grooming: service, currentUser: widget.currentUser),
                             ),
                           );
                         },
