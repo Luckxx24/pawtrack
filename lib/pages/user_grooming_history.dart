@@ -4,7 +4,9 @@ import 'package:pawtrack/models/users_models.dart';
 import 'package:pawtrack/services/pesan_grooming_service.dart';
 
 class UserGroomingHistory extends StatefulWidget {
-  const UserGroomingHistory({Key? key, required Users currentUser}) : super(key: key);
+  const UserGroomingHistory({Key? key, required this.currentUser}) : super(key: key);
+
+  final Users currentUser;
 
   @override
   _UserGroomingHistoryState createState() => _UserGroomingHistoryState();
@@ -73,16 +75,15 @@ class _UserGroomingHistoryState extends State<UserGroomingHistory> {
                   );
                 }
 
-                // Filter berdasarkan status yang dipilih
-                final filteredRequests = _selectedStatus == 'semua'
-                    ? snapshot.data!
-                    : snapshot.data!
-                        .where((request) => request.status == _selectedStatus)
-                        .toList();
+                // Filter berdasarkan nama pengguna dan status yang dipilih
+                final filteredRequests = snapshot.data!
+                    .where((request) => request.user == widget.currentUser.nama)
+                    .where((request) => _selectedStatus == 'semua' ? true : request.status == _selectedStatus)
+                    .toList();
 
                 if (filteredRequests.isEmpty) {
                   return const Center(
-                    child: Text('Tidak ada permintaan dengan status ini'),
+                    child: Text('Tidak ada permintaan dengan kriteria ini'),
                   );
                 }
 
@@ -159,7 +160,6 @@ class _UserGroomingHistoryState extends State<UserGroomingHistory> {
             Text('Pemohon: ${request.user}'),
             Text('Status: ${request.status}'),
 
-            
             // Tampilkan tombol hanya untuk status 'menunggu'
             if (request.status == 'menunggu')
               Padding(

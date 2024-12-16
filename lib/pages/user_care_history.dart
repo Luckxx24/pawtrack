@@ -4,14 +4,16 @@ import 'package:pawtrack/models/users_models.dart';
 import 'package:pawtrack/services/daycare_service.dart';
 
 class UserCareHistory extends StatefulWidget {
-  const UserCareHistory({Key? key, required Users currentUser}) : super(key: key);
+  const UserCareHistory({Key? key, required this.currentUser}) : super(key: key);
+
+  final Users currentUser;
 
   @override
   _UserCareHistoryState createState() => _UserCareHistoryState();
 }
 
 class _UserCareHistoryState extends State<UserCareHistory> {
-  final FirebaseService _groomingServices = FirebaseService();
+  final FirebaseService _daycareServices = FirebaseService();
   
   // Daftar status untuk filter
   final List<String> _statusOptions = [
@@ -61,7 +63,7 @@ class _UserCareHistoryState extends State<UserCareHistory> {
           // Stream builder untuk menampilkan daftar permintaan
           Expanded(
             child: StreamBuilder<List<Daycare>>(
-              stream: _groomingServices.getDaycare(),
+              stream: _daycareServices.getDaycare(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -73,16 +75,15 @@ class _UserCareHistoryState extends State<UserCareHistory> {
                   );
                 }
 
-                // Filter berdasarkan status yang dipilih
-                final filteredRequests = _selectedStatus == 'semua'
-                    ? snapshot.data!
-                    : snapshot.data!
-                        .where((request) => request.status == _selectedStatus)
-                        .toList();
+                // Filter berdasarkan nama pengguna dan status yang dipilih
+                final filteredRequests = snapshot.data!
+                    .where((request) => request.user == widget.currentUser.nama)
+                    .where((request) => _selectedStatus == 'semua' ? true : request.status == _selectedStatus)
+                    .toList();
 
                 if (filteredRequests.isEmpty) {
                   return const Center(
-                    child: Text('Tidak ada permintaan penitipan dengan status ini'),
+                    child: Text('Tidak ada permintaan penitipan dengan kriteria ini'),
                   );
                 }
 
@@ -90,7 +91,7 @@ class _UserCareHistoryState extends State<UserCareHistory> {
                   itemCount: filteredRequests.length,
                   itemBuilder: (context, index) {
                     final request = filteredRequests[index];
-                    return _buildAdoptRequestCard(request);
+                    return _buildDaycareRequestCard(request);
                   },
                 );
               },
@@ -101,7 +102,7 @@ class _UserCareHistoryState extends State<UserCareHistory> {
     );
   }
 
-  Widget _buildAdoptRequestCard(Daycare request) {
+  Widget _buildDaycareRequestCard(Daycare request) {
     // Tentukan warna berdasarkan status
     Color statusColor;
     switch (request.status) {
@@ -160,7 +161,6 @@ class _UserCareHistoryState extends State<UserCareHistory> {
             Text('Pemohon: ${request.user}'),
             Text('Status: ${request.status}'),
 
-            
             // Tampilkan tombol hanya untuk status 'menunggu'
             if (request.status == 'menunggu')
               Padding(
@@ -183,10 +183,10 @@ class _UserCareHistoryState extends State<UserCareHistory> {
   }
 
   void _batalRequestDaycare(Daycare request) {
-    // Update status di Firebase
-    _groomingServices.deleteDaycare(request.nama).then((_) {
+    // Hapus permintaan di Firebase
+    _daycareServices.deleteDaycare(request.nama).then((_) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Permintaan penitipan dibatalkan'),
           backgroundColor: Colors.red,
         ),
