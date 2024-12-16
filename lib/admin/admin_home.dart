@@ -10,6 +10,7 @@ import 'package:pawtrack/utils/styles.dart';
 import 'package:pawtrack/widgets/animated_title.dart';
 import 'package:pawtrack/widgets/pet_card.dart';
 import 'package:pawtrack/admin/admin_daycare.dart';
+import 'package:pawtrack/pages/AdminProfile.dart';
 
 class AdminHome extends StatelessWidget {
   final Users currentUser;
@@ -49,7 +50,7 @@ class AdminHome extends StatelessWidget {
       {
         'text': 'Profile',
         'icon': 'assets/nav_icons/account-svgrepo-com.svg',
-        'page': ProfilePage(currentUser: currentUser)
+        'page': AdminProfilePage(currentUser: currentUser)
       },
     ];
 
