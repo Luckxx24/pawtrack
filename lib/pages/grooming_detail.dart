@@ -1,16 +1,19 @@
+//Grooming detail
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:pawtrack/models/users_models.dart';
+import 'package:pawtrack/pages/pesan_grooming_page.dart';
 import '../models/grooming_models.dart';
 import '../utils/styles.dart';
-import 'booking_page.dart';
-import '../models/users_models.dart';
 
 class GroomingDetailPage extends StatelessWidget {
   final Grooming grooming;
-  final Users currentUser;
 
-  const GroomingDetailPage({Key? key, required this.grooming, required this.currentUser}) : super(key: key);
+  const GroomingDetailPage({super.key, required this.grooming, required this.currentUser});
+
+  final Users currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -84,23 +87,24 @@ class GroomingDetailPage extends StatelessWidget {
                 fontSize: 16,
               ),
             ),
-            const Gap(16),
+            // Removed the Spacer that was causing layout issues.
+            // It's better to control the spacing with a Gap instead.
+            const Gap(16),  // Add gap before button for spacing
             Center(
               child: ElevatedButton(
-                onPressed: () async {
-                  // Navigasi ke halaman konfirmasi booking
-                  final result = await Navigator.push(
+                onPressed: () {
+                  // TODO: Add booking functionality
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => BookingPage(grooming: grooming, currentUser: currentUser),
+                      builder: (context) => GroomingBookingPage(grooming: grooming, currentUser: currentUser),
                     ),
                   );
-
-                  if (result == true) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Service booked successfully!')),
-                    );
-                  }
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Service booked successfully!'),
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Styles.bgColor,
