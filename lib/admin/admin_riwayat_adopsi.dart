@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:pawtrack/models/grooming_models.dart';
 import 'package:pawtrack/models/users_models.dart';
-import 'package:pawtrack/services/pesan_grooming_service.dart';
+import 'package:pawtrack/services/adopt_service.dart';
+import 'package:pawtrack/models/adopt_models.dart';
 
-class AdminGroomBookingPage extends StatefulWidget {
-  const AdminGroomBookingPage({Key? key, required Users currentUser}) : super(key: key);
+
+class AdminRiwayatAdoptPage extends StatefulWidget {
+  const AdminRiwayatAdoptPage({Key? key,}) : super(key: key);
 
   @override
-  _AdminGroomBookingPageState createState() => _AdminGroomBookingPageState();
+  _AdminRiwayatAdoptPageState createState() => _AdminRiwayatAdoptPageState();
 }
 
-class _AdminGroomBookingPageState extends State<AdminGroomBookingPage> {
-  final FirebaseService _groomingServices = FirebaseService();
+class _AdminRiwayatAdoptPageState extends State<AdminRiwayatAdoptPage> {
+  final FirebaseService _adoptServices = FirebaseService();
   
   // Daftar status untuk filter
   final List<String> _statusOptions = [
     'semua',
-    'menunggu',
-    'diterima',
-    'ditolak'
+    'tersedia',
+    'diadopsi',
   ];
   
   // Status yang dipilih saat ini
@@ -28,7 +28,7 @@ class _AdminGroomBookingPageState extends State<AdminGroomBookingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Permintaan Booking Grooming'),
+        title: const Text('Riwayat Adopsi'),
         centerTitle: true,
       ),
       body: Column(
@@ -60,8 +60,8 @@ class _AdminGroomBookingPageState extends State<AdminGroomBookingPage> {
 
           // Stream builder untuk menampilkan daftar permintaan
           Expanded(
-            child: StreamBuilder<List<Grooming>>(
-              stream: _groomingServices.getGrooming(),
+            child: StreamBuilder<List<Adopt>>(
+              stream: _adoptServices.getAdopt(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -69,7 +69,7 @@ class _AdminGroomBookingPageState extends State<AdminGroomBookingPage> {
 
                 if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return const Center(
-                    child: Text('Tidak ada permintaan grooming'),
+                    child: Text('Belum ada adopsi'),
                   );
                 }
 
@@ -82,7 +82,7 @@ class _AdminGroomBookingPageState extends State<AdminGroomBookingPage> {
 
                 if (filteredRequests.isEmpty) {
                   return const Center(
-                    child: Text('Tidak ada permintaan dengan status ini'),
+                    child: Text('Tidak ada adopsi dengan status ini'),
                   );
                 }
 
@@ -90,7 +90,7 @@ class _AdminGroomBookingPageState extends State<AdminGroomBookingPage> {
                   itemCount: filteredRequests.length,
                   itemBuilder: (context, index) {
                     final request = filteredRequests[index];
-                    return _buildGroomingRequestCard(request);
+                    return _buildAdoptRiwayatCard(request);
                   },
                 );
               },
@@ -101,18 +101,15 @@ class _AdminGroomBookingPageState extends State<AdminGroomBookingPage> {
     );
   }
 
-  Widget _buildGroomingRequestCard(Grooming request) {
+  Widget _buildAdoptRiwayatCard(Adopt request) {
     // Tentukan warna berdasarkan status
     Color statusColor;
     switch (request.status) {
-      case 'menunggu':
+      case 'tersedia':
         statusColor = Colors.orange;
         break;
-      case 'diterima':
+      case 'diadopsi':
         statusColor = Colors.green;
-        break;
-      case 'ditolak':
-        statusColor = Colors.red;
         break;
       default:
         statusColor = Colors.grey;
@@ -151,64 +148,16 @@ class _AdminGroomBookingPageState extends State<AdminGroomBookingPage> {
             ),
             const SizedBox(height: 8),
             Text('Deskripsi: ${request.deskripsi}'),
-            Text('Durasi: ${request.durasi}'),
+            Text('Hewan: ${request.jenis}'),
             Text(
-              'Jadwal: ${request.jadwal}',
+              'usia: ${request.usia} tahun',
             ),
-            Text('Biaya: Rp ${request.harga}'),
-            Text('Pemohon: ${request.user}'),
+            Text('Pemilik: Rp ${request.user}'),
             Text('Status: ${request.status}'),
-
-            
-            // Tampilkan tombol hanya untuk status 'menunggu'
-            if (request.status == 'menunggu')
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      onPressed: () => _updateRequestStatus(request, 'ditolak'),
-                      icon: const Icon(Icons.close)),
-                    // ElevatedButton(
-                    //   onPressed: () => _updateRequestStatus(request, 'ditolak'),
-                    //   style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                    //   child: const Text('Tolak'),
-                    // ),
-                    IconButton(
-                      onPressed: () => _updateRequestStatus(request, 'diterima'),
-                      icon: const Icon(Icons.check)
-                      ),
-                    // ElevatedButton(
-                    //   onPressed: () => _updateRequestStatus(request, 'diterima'),
-                    //   style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                    //   child: const Text('Terima'),
-                    // ),
-                  ],
-                ),
-              ),
+            const SizedBox(height: 8),
           ],
         ),
       ),
     );
-  }
-
-  void _updateRequestStatus(Grooming request, String status) {
-    // Update status di Firebase
-    _groomingServices.updatePesanGrooming(request.nama, {'status': status}).then((_) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Permintaan ${status == 'diterima' ? 'diterima' : 'ditolak'}'),
-          backgroundColor: status == 'diterima' ? Colors.green : Colors.red,
-        ),
-      );
-    }).catchError((error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Gagal memperbarui status: $error'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    });
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:pawtrack/admin/admin_riwayat_adopsi.dart';
 import 'package:pawtrack/models/users_models.dart';
 import '../models/adopt_models.dart';
 import '../services/adopt_service.dart';
@@ -33,6 +34,17 @@ class _AdminAdoptPageState extends State<AdminAdoptPage> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () => _showFormDialog(context),
+          ),
+          IconButton(
+            icon: const Icon(Icons.history),
+            onPressed: () {
+              Navigator.push( 
+                context,
+                MaterialPageRoute( 
+                  builder: (context) => AdminRiwayatAdoptPage(), 
+                  ), 
+                );
+            },
           ),
         ],
       ),

@@ -15,13 +15,14 @@ class _AdminCarePageState extends State<AdminCarePage> {
   
   // Daftar status untuk filter
   final List<String> _statusOptions = [
+    'semua',
     'menunggu',
     'diterima',
     'ditolak'
   ];
   
   // Status yang dipilih saat ini
-  String _selectedStatus = 'menunggu';
+  String _selectedStatus = 'semua';
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +74,7 @@ class _AdminCarePageState extends State<AdminCarePage> {
                 }
 
                 // Filter berdasarkan status yang dipilih
-                final filteredRequests = _selectedStatus == 'menunggu'
+                final filteredRequests = _selectedStatus == 'semua'
                     ? snapshot.data!
                     : snapshot.data!
                         .where((request) => request.status == _selectedStatus)
