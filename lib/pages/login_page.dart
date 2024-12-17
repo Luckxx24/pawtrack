@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pawtrack/utils/layouts.dart';
 import 'package:pawtrack/utils/styles.dart';
@@ -6,6 +7,7 @@ import 'package:pawtrack/pages/register.dart';
 import 'package:pawtrack/admin/admin_home.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../services/users_service.dart';
 import '../models/users_models.dart';
 
@@ -25,52 +27,58 @@ class _LoginPageState extends State<LoginPage> {
   bool _obscurePassword = true;
 
   Future<void> _login() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        _isLoading = true;
-      });
+  if (_formKey.currentState!.validate()) {
+    setState(() {
+      _isLoading = true;
+    });
 
-      try {
-        final usersStream = _firebaseService.getUsers();
-        await for (final users in usersStream) {
-          final user = users.firstWhere(
-                (user) => user.email == _emailController.text &&
-                user.password == _passwordController.text,
-            orElse: () => throw Exception('Invalid credentials'),
-          );
+    try {
+      User? user = await _firebaseService.loginUser(
+        _emailController.text,
+        _passwordController.text,
+      );
 
+      if (user != null) {
+        // Ambil data pengguna dari Firestore
+        Users? loggedInUser = await _firebaseService.getUserData(user.uid);
+        if (loggedInUser != null) {
           if (mounted) {
-            if (user.role.toLowerCase() == 'admin') {
+            if (loggedInUser.role.toLowerCase() == 'admin') {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => AdminHome(currentUser: user),
+                  builder: (_) => AdminHome(currentUser: loggedInUser),
                 ),
               );
             } else {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => Home(currentUser: user),
+                  builder: (_) => Home(currentUser: loggedInUser),
                 ),
               );
             }
           }
-          return;
+        } else {
+          throw Exception('User data not found');
         }
-      } catch (e) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(e.toString())),
-          );
-        }
-      } finally {
-        setState(() {
-          _isLoading = false;
-        });
+      } else {
+        throw Exception('Invalid credentials');
       }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.toString())),
+        );
+      }
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
