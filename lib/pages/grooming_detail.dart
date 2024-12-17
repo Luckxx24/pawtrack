@@ -1,5 +1,3 @@
-//Grooming detail
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
@@ -19,21 +17,30 @@ class GroomingDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Grooming Detail'),
+        title: const Text('Detail Grooming'),
         backgroundColor: Styles.bgColor,
+        centerTitle: true,
+        elevation: 0,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Grooming Image Placeholder
+            // Gambar Grooming
             Container(
               height: 200,
               width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 color: Styles.bgWithOpacityColor,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.shade300,
+                    blurRadius: 10,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
               ),
               child: Center(
                 child: SvgPicture.asset(
@@ -42,77 +49,83 @@ class GroomingDetailPage extends StatelessWidget {
                 ),
               ),
             ),
-            const Gap(16),
-            Text(
-              grooming.nama,
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+            const Gap(20),
+
+            // Informasi Grooming dalam Card
+            Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
               ),
-            ),
-            const Gap(8),
-            Text(
-              grooming.deskripsi,
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[700],
-              ),
-            ),
-            const Gap(16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Duration: ${grooming.durasi}',
-                  style: TextStyle(
-                    color: Colors.grey[600],
-                    fontSize: 16,
-                  ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Text(
+                        grooming.nama,
+                        style: const TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ),
+                    const Gap(8),
+                    Divider(color: Colors.grey.shade300),
+                    const Gap(8),
+
+                    Text(
+                      grooming.deskripsi,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black54,
+                      ),
+                      textAlign: TextAlign.justify,
+                    ),
+                    const Gap(20),
+
+                    // Detail Grooming: Duration, Price, Schedule
+                    _buildDetailRow('Durasi', '${grooming.durasi}'),
+                    _buildDetailRow('Harga', 'Rp ${grooming.harga.toStringAsFixed(0)}'),
+                    _buildDetailRow('Jadwal', grooming.jadwal),
+                  ],
                 ),
-                Text(
-                  'Price: Rp ${grooming.harga.toStringAsFixed(0)}',
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-              ],
-            ),
-            const Gap(16),
-            Text(
-              'Schedule: ${grooming.jadwal}',
-              style: TextStyle(
-                color: Colors.grey[600],
-                fontSize: 16,
               ),
             ),
-            // Removed the Spacer that was causing layout issues.
-            // It's better to control the spacing with a Gap instead.
-            const Gap(16),  // Add gap before button for spacing
+            const Gap(30),
+
+            // Tombol Pemesanan
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  // TODO: Add booking functionality
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => GroomingBookingPage(grooming: grooming, currentUser: currentUser),
+                      builder: (context) => GroomingBookingPage(
+                        grooming: grooming,
+                        currentUser: currentUser,
+                      ),
                     ),
                   );
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('Service booked successfully!'),
+                      content: Text('Service berhasil dipesan!'),
                     ),
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Styles.bgColor,
+                  backgroundColor: Styles.highlightColor,
+                  foregroundColor: Colors.white,
                   fixedSize: const Size(200, 50),
-                  shape: const StadiumBorder(),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  elevation: 2,
                 ),
                 child: const Text(
-                  'Book Now',
+                  'Pesan Sekarang',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -122,6 +135,36 @@ class GroomingDetailPage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  // Fungsi untuk membuat baris detail
+  Widget _buildDetailRow(String title, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.black87,
+            ),
+          ),
+          Flexible(
+            child: Text(
+              value,
+              style: const TextStyle(
+                fontSize: 16,
+                color: Colors.black54,
+              ),
+              textAlign: TextAlign.right,
+            ),
+          ),
+        ],
       ),
     );
   }

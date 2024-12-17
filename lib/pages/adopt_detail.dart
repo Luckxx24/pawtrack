@@ -80,7 +80,7 @@ class AdoptDetailPage extends StatelessWidget {
                     const Gap(8),
 
                     _buildDetailRow('Usia', '${adopt.usia} tahun'),
-                    _buildDetailRow('Jenis', adopt.jenis == 'dog' ? 'Anjing' : 'Kucing'),
+                    _buildDetailRow('Jenis', adopt.jenis),
                     _buildDetailRow('Deskripsi', adopt.deskripsi),
                     _buildDetailRow(
                         'Status',
