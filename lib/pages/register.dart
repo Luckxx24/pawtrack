@@ -3,6 +3,7 @@ import 'package:pawtrack/utils/layouts.dart';
 import 'package:pawtrack/utils/styles.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../models/users_models.dart';
 import '../services/users_service.dart';
 
@@ -28,11 +29,16 @@ class _RegisterPageState extends State<RegisterPage> {
       });
 
       try {
+        UserCredential result = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _emailController.text,
+          password: _passwordController.text,
+        );
+
         final newUser = Users(
           nama: _nameController.text,
           email: _emailController.text,
           password: _passwordController.text,
-          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          id: result.user?.uid ?? '',
           profile_picture: '',
           role: 'user',
         );
